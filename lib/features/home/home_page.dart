@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
 import '../../core/widgets/max_width.dart';
+import '../../core/widgets/section_header.dart';
 import '../../domain/models/portfolio_models.dart';
 import 'bloc/portfolio_bloc.dart';
 
@@ -44,7 +45,9 @@ class HomePage extends StatelessWidget {
                 TopNavBar(socials: data.profile.socials),
                 const SizedBox(height: 40),
                 HeroSection(profile: data.profile),
-                const SizedBox(height: 60),
+                const SizedBox(height: 90),
+                CaseStudiesSection(caseStudies: data.caseStudies),
+                const SizedBox(height: 90),
               ],
             ),
           );
@@ -310,6 +313,139 @@ class PartnerLogoCard extends StatelessWidget {
               filterQuality: FilterQuality.medium,
               errorBuilder: (context, error, stackTrace) => _LogoFallback(name: logo.name),
             ),
+    );
+  }
+}
+
+class CaseStudiesSection extends StatelessWidget {
+  final List<CaseStudy> caseStudies;
+
+  const CaseStudiesSection({super.key, required this.caseStudies});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          const SectionHeader(
+            title: 'Case Studies',
+            subtitle:
+                'Solving user & business problems since last 15+ years. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            dark: true,
+          ),
+          const SizedBox(height: 36),
+          ...caseStudies.map((cs) => CaseStudyRow(caseStudy: cs)).toList(),
+        ],
+      ),
+    );
+  }
+}
+
+class CaseStudyRow extends StatelessWidget {
+  final CaseStudy caseStudy;
+
+  const CaseStudyRow({super.key, required this.caseStudy});
+
+  Color _accentColor(String key) {
+    switch (key) {
+      case 'amber':
+        return AppColors.accentAmber;
+      case 'blue':
+        return AppColors.accentBlue;
+      case 'teal':
+        return AppColors.accentTeal;
+      default:
+        return AppColors.primaryGreen;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isEven = caseStudy.id.hashCode.isEven;
+    final accent = _accentColor(caseStudy.accent);
+
+    final imageCard = ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Image.asset(
+        caseStudy.imageUrl,
+        width: 520,
+        height: 320,
+        fit: BoxFit.cover,
+      ),
+    );
+
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: accent.withOpacity(0.16),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: accent.withOpacity(0.7)),
+          ),
+          child: Text(
+            caseStudy.tag,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: accent,
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        Text(
+          caseStudy.title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.textOnDark,
+                fontWeight: FontWeight.w800,
+              ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          caseStudy.summary,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: AppColors.mutedOnDark,
+                height: 1.6,
+              ),
+        ),
+        const SizedBox(height: 18),
+        GlowButton(label: 'View case study', color: accent, onPressed: () {}),
+      ],
+    );
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 26),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth >= 900;
+          if (!isWide) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                imageCard,
+                const SizedBox(height: 18),
+                content,
+              ],
+            );
+          }
+
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (isEven) ...[
+                Expanded(child: content),
+                const SizedBox(width: 32),
+                imageCard,
+              ] else ...[
+                imageCard,
+                const SizedBox(width: 32),
+                Expanded(child: content),
+              ],
+            ],
+          );
+        },
+      ),
     );
   }
 }

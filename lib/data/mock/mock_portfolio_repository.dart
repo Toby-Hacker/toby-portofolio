@@ -59,7 +59,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
         imageUrl:
-            'https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/case_fintech.png',
         accent: 'amber',
         highlights: [
           'Subscription billing (Stripe) + webhooks',
@@ -75,7 +75,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
         imageUrl:
-            'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/case_edtech.png',
         accent: 'blue',
         highlights: [
           'Offline-first mobile experience',
@@ -91,7 +91,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
         imageUrl:
-            'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/case_pharma.png',
         accent: 'teal',
         highlights: [
           'Multi-tenant catalogs & pricing tiers',
