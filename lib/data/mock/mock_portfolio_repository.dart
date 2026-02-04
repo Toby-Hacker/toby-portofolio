@@ -109,7 +109,7 @@ class MockPortfolioRepository implements PortfolioRepository {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
         avatarUrl:
-            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+            'assets/images/avatar_1.png',
       ),
       Testimonial(
         id: 't2',
@@ -117,7 +117,7 @@ class MockPortfolioRepository implements PortfolioRepository {
             'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
         avatarUrl:
-            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+            'assets/images/avatar_2.png',
       ),
       Testimonial(
         id: 't3',
@@ -125,7 +125,7 @@ class MockPortfolioRepository implements PortfolioRepository {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
         avatarUrl:
-            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+            'assets/images/avatar_3.png',
       ),
       Testimonial(
         id: 't4',
@@ -133,7 +133,7 @@ class MockPortfolioRepository implements PortfolioRepository {
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
         avatarUrl:
-            'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=200&q=80',
+            'assets/images/avatar_4.png',
       ),
     ];
 
@@ -144,7 +144,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut labore et dolore magna.',
         imageUrl:
-            'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/recent_1.png',
         stack: ['Flutter', 'Bloc', 'GoRouter'],
       ),
       RecentWork(
@@ -153,7 +153,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Tempor incididunt ut labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut.',
         imageUrl:
-            'https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/recent_2.png',
         stack: ['Node.js', 'TypeORM', 'PostgreSQL'],
       ),
       RecentWork(
@@ -162,7 +162,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut labore et dolore magna.',
         imageUrl:
-            'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/recent_3.png',
         stack: ['Stripe', 'Webhooks', 'Billing'],
       ),
       RecentWork(
@@ -171,7 +171,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         summary:
             'Tempor incididunt ut labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut.',
         imageUrl:
-            'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
+            'assets/images/recent_4.png',
         stack: ['AI', 'Monitoring', 'Dashboard'],
       ),
     ];
