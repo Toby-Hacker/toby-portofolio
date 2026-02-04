@@ -36,13 +36,13 @@ class MockPortfolioRepository implements PortfolioRepository {
       intro:
           'Intro text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       heroImageUrl:
-          'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=800&q=80',
+          'assets/images/hero.png',
       workedWith: [
-        PartnerLogo('ClickUp'),
-        PartnerLogo('Dropbox'),
-        PartnerLogo('Paychex'),
-        PartnerLogo('elastic'),
-        PartnerLogo('stripe'),
+        PartnerLogo(name: 'ClickUp', assetPath: 'assets/logos/clickup.svg'),
+        PartnerLogo(name: 'Dropbox', assetPath: 'assets/logos/dropbox.svg'),
+        PartnerLogo(name: 'Paychex', assetPath: 'assets/logos/paychex.svg'),
+        PartnerLogo(name: 'elastic', assetPath: 'assets/logos/elastic.svg'),
+        PartnerLogo(name: 'stripe', assetPath: 'assets/logos/stripe.svg'),
       ],
       socials: [
         SocialLink(label: 'in', url: 'https://www.linkedin.com/'),

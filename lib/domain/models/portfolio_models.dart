@@ -11,10 +11,11 @@ class SocialLink extends Equatable {
 
 class PartnerLogo extends Equatable {
   final String name;
-  const PartnerLogo(this.name);
+  final String assetPath;
+  const PartnerLogo({required this.name, required this.assetPath});
 
   @override
-  List<Object?> get props => [name];
+  List<Object?> get props => [name, assetPath];
 }
 
 class CaseStudy extends Equatable {
