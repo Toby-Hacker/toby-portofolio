@@ -324,19 +324,25 @@ class CaseStudiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaxWidth(
-      padding: const EdgeInsets.symmetric(horizontal: 28),
-      child: Column(
-        children: [
-          const SectionHeader(
-            title: 'Case Studies',
-            subtitle:
-                'Solving user & business problems since last 15+ years. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-            dark: true,
-          ),
-          const SizedBox(height: 36),
-          ...caseStudies.map((cs) => CaseStudyRow(caseStudy: cs)).toList(),
-        ],
+    return Container(
+      width: double.infinity,
+      color: AppColors.offWhite,
+      padding: const EdgeInsets.symmetric(vertical: 80),
+      child: MaxWidth(
+        padding: const EdgeInsets.symmetric(horizontal: 28),
+        child: Column(
+          children: [
+            const SectionHeader(
+              title: 'Case Studies',
+              subtitle:
+                  'Solving user & business problems since last 15+ years. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+              dark: false,
+            ),
+            const SizedBox(height: 36),
+            for (var i = 0; i < caseStudies.length; i++)
+              CaseStudyRow(caseStudy: caseStudies[i], index: i),
+          ],
+        ),
       ),
     );
   }
@@ -344,8 +350,9 @@ class CaseStudiesSection extends StatelessWidget {
 
 class CaseStudyRow extends StatelessWidget {
   final CaseStudy caseStudy;
+  final int index;
 
-  const CaseStudyRow({super.key, required this.caseStudy});
+  const CaseStudyRow({super.key, required this.caseStudy, required this.index});
 
   Color _accentColor(String key) {
     switch (key) {
@@ -362,7 +369,7 @@ class CaseStudyRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isEven = caseStudy.id.hashCode.isEven;
+    final isEven = index.isEven;
     final accent = _accentColor(caseStudy.accent);
 
     final imageCard = ClipRRect(
@@ -397,7 +404,7 @@ class CaseStudyRow extends StatelessWidget {
         Text(
           caseStudy.title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: AppColors.textOnDark,
+                color: const Color(0xFF111111),
                 fontWeight: FontWeight.w800,
               ),
         ),
@@ -405,7 +412,7 @@ class CaseStudyRow extends StatelessWidget {
         Text(
           caseStudy.summary,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.mutedOnDark,
+                color: const Color(0xFF4B4B4B),
                 height: 1.6,
               ),
         ),
