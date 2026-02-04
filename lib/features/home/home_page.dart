@@ -8,6 +8,7 @@ import '../../core/widgets/max_width.dart';
 import '../../core/widgets/section_header.dart';
 import '../../domain/models/portfolio_models.dart';
 import 'bloc/portfolio_bloc.dart';
+import 'sections/testimonials_section.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -47,6 +48,8 @@ class HomePage extends StatelessWidget {
                 HeroSection(profile: data.profile),
                 const SizedBox(height: 90),
                 CaseStudiesSection(caseStudies: data.caseStudies),
+                const SizedBox(height: 90),
+                TestimonialsSection(testimonials: data.testimonials),
                 const SizedBox(height: 90),
               ],
             ),
