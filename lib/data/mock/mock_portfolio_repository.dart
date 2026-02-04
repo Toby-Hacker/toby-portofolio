@@ -16,18 +16,18 @@ class MockPortfolioRepository implements PortfolioRepository {
   Future<CaseStudy?> getCaseStudyById(String id) async {
     await Future<void>.delayed(const Duration(milliseconds: 80));
     return _data.caseStudies.cast<CaseStudy?>().firstWhere(
-          (e) => e!.id == id,
-          orElse: () => null,
-        );
+      (e) => e!.id == id,
+      orElse: () => null,
+    );
   }
 
   @override
   Future<RecentWork?> getRecentWorkById(String id) async {
     await Future<void>.delayed(const Duration(milliseconds: 80));
     return _data.recentWork.cast<RecentWork?>().firstWhere(
-          (e) => e!.id == id,
-          orElse: () => null,
-        );
+      (e) => e!.id == id,
+      orElse: () => null,
+    );
   }
 
   PortfolioData _build() {
@@ -35,8 +35,7 @@ class MockPortfolioRepository implements PortfolioRepository {
       name: 'Your Name Here',
       intro:
           'Intro text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      heroImageUrl:
-          'assets/images/hero.png',
+      heroImageUrl: 'assets/images/hero.png',
       workedWith: [
         PartnerLogo(name: 'ClickUp', assetPath: 'assets/logos/clickup.svg'),
         PartnerLogo(name: 'Dropbox', assetPath: 'assets/logos/dropbox.svg'),
@@ -58,8 +57,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl:
-            'assets/images/case_fintech.png',
+        imageUrl: 'assets/images/case_fintech.png',
         accent: 'amber',
         highlights: [
           'Subscription billing (Stripe) + webhooks',
@@ -74,8 +72,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl:
-            'assets/images/case_edtech.png',
+        imageUrl: 'assets/images/case_edtech.png',
         accent: 'blue',
         highlights: [
           'Offline-first mobile experience',
@@ -90,8 +87,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl:
-            'assets/images/case_pharma.png',
+        imageUrl: 'assets/images/case_pharma.png',
         accent: 'teal',
         highlights: [
           'Multi-tenant catalogs & pricing tiers',
@@ -108,32 +104,28 @@ class MockPortfolioRepository implements PortfolioRepository {
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
-        avatarUrl:
-            'assets/images/avatar_1.png',
+        avatarUrl: 'assets/images/avatar_1.png',
       ),
       Testimonial(
         id: 't2',
         quote:
             'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
-        avatarUrl:
-            'assets/images/avatar_2.png',
+        avatarUrl: 'assets/images/avatar_2.png',
       ),
       Testimonial(
         id: 't3',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
-        avatarUrl:
-            'assets/images/avatar_3.png',
+        avatarUrl: 'assets/images/avatar_3.png',
       ),
       Testimonial(
         id: 't4',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         clientName: 'Client Name',
-        avatarUrl:
-            'assets/images/avatar_4.png',
+        avatarUrl: 'assets/images/avatar_4.png',
       ),
     ];
 
@@ -143,8 +135,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl:
-            'assets/images/recent_1.png',
+        imageUrl: 'assets/images/recent_1.png',
         stack: ['Flutter', 'Bloc', 'GoRouter'],
       ),
       RecentWork(
@@ -152,8 +143,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Tempor incididunt ut labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut.',
-        imageUrl:
-            'assets/images/recent_2.png',
+        imageUrl: 'assets/images/recent_2.png',
         stack: ['Node.js', 'TypeORM', 'PostgreSQL'],
       ),
       RecentWork(
@@ -161,8 +151,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl:
-            'assets/images/recent_3.png',
+        imageUrl: 'assets/images/recent_3.png',
         stack: ['Stripe', 'Webhooks', 'Billing'],
       ),
       RecentWork(
@@ -170,8 +159,7 @@ class MockPortfolioRepository implements PortfolioRepository {
         title: 'Work name here',
         summary:
             'Tempor incididunt ut labore et dolore magna aliqua. sed do eiusmod tempor incididunt ut.',
-        imageUrl:
-            'assets/images/recent_4.png',
+        imageUrl: 'assets/images/recent_4.png',
         stack: ['AI', 'Monitoring', 'Dashboard'],
       ),
     ];
