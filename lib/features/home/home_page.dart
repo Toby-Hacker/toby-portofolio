@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
+import '../../core/localization/locale_controller.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
 import '../../core/widgets/max_width.dart';
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   final _testimonialsKey = GlobalKey();
   final _recentWorkKey = GlobalKey();
   final _contactKey = GlobalKey();
-  String _activeSection = 'Home';
+  String _activeSection = 'home';
 
   @override
   void initState() {
@@ -48,11 +50,11 @@ class _HomePageState extends State<HomePage> {
 
   void _updateActiveSection() {
     final sections = <String, GlobalKey>{
-      'Home': _heroKey,
-      'Case Studies': _caseStudiesKey,
-      'Testimonials': _testimonialsKey,
-      'Recent work': _recentWorkKey,
-      'Get In Touch': _contactKey,
+      'home': _heroKey,
+      'case': _caseStudiesKey,
+      'testimonials': _testimonialsKey,
+      'recent': _recentWorkKey,
+      'contact': _contactKey,
     };
 
     const threshold = 140.0;
@@ -69,7 +71,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    current ??= 'Home';
+    current ??= 'home';
     if (current != _activeSection && mounted) {
       setState(() => _activeSection = current!);
     }
@@ -112,6 +114,9 @@ class _HomePageState extends State<HomePage> {
             return const SizedBox.shrink();
           }
 
+          final l10n = AppLocalizations.of(context)!;
+          final localeController = LocaleScope.of(context);
+          final currentLocale = localeController.locale ?? Localizations.localeOf(context);
           return CustomScrollView(
             controller: _scrollController,
             slivers: [
@@ -123,22 +128,31 @@ class _HomePageState extends State<HomePage> {
                   maxHeight: 90,
                   child: TopNavBar(
                     socials: data.profile.socials,
-                    activeLabel: _activeSection,
+                    activeId: _activeSection,
+                    items: [
+                      _NavItem(id: 'home', label: l10n.nav_home),
+                      _NavItem(id: 'case', label: l10n.nav_case_studies),
+                      _NavItem(id: 'testimonials', label: l10n.nav_testimonials),
+                      _NavItem(id: 'recent', label: l10n.nav_recent_work),
+                      _NavItem(id: 'contact', label: l10n.nav_get_in_touch),
+                    ],
+                    currentLocale: currentLocale,
+                    onLocaleChanged: (locale) => localeController.setLocale(locale),
                     onNavTap: (label) {
                       switch (label) {
-                        case 'Home':
+                        case 'home':
                           _scrollTo(_heroKey);
                           break;
-                        case 'Case Studies':
+                        case 'case':
                           _scrollTo(_caseStudiesKey);
                           break;
-                        case 'Testimonials':
+                        case 'testimonials':
                           _scrollTo(_testimonialsKey);
                           break;
-                        case 'Recent work':
+                        case 'recent':
                           _scrollTo(_recentWorkKey);
                           break;
-                        case 'Get In Touch':
+                        case 'contact':
                           _scrollTo(_contactKey);
                           break;
                       }
@@ -180,6 +194,7 @@ class HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -208,12 +223,12 @@ class HeroSection extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               GlowButton(
-                label: "Let's get started",
+                label: l10n.hero_cta,
                 onPressed: () {},
               ),
               const SizedBox(height: 42),
               Text(
-                'Worked with',
+                l10n.hero_worked_with,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: AppColors.mutedOnDark,
                   letterSpacing: 1.1,
@@ -260,13 +275,19 @@ class HeroSection extends StatelessWidget {
 class TopNavBar extends StatelessWidget {
   final List<SocialLink> socials;
   final ValueChanged<String> onNavTap;
-  final String activeLabel;
+  final String activeId;
+  final List<_NavItem> items;
+  final Locale currentLocale;
+  final ValueChanged<Locale> onLocaleChanged;
 
   const TopNavBar({
     super.key,
     required this.socials,
     required this.onNavTap,
-    required this.activeLabel,
+    required this.activeId,
+    required this.items,
+    required this.currentLocale,
+    required this.onLocaleChanged,
   });
 
   @override
@@ -293,33 +314,31 @@ class TopNavBar extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isWide = constraints.maxWidth >= 900;
-            final items = [
-              'Home',
-              'Case Studies',
-              'Testimonials',
-              'Recent work',
-              'Get In Touch',
-            ];
-
             final menu = Wrap(
               spacing: 28,
               runSpacing: 12,
               alignment: WrapAlignment.center,
               children: items
                   .map(
-                    (label) => InkWell(
-                      onTap: () => onNavTap(label),
+                    (item) => InkWell(
+                      onTap: () => onNavTap(item.id),
                       child: Text(
-                        label,
+                        item.label,
                         style: navStyle?.copyWith(
-                          color:
-                              label == activeLabel ? AppColors.textOnDark : AppColors.mutedOnDark,
-                          fontWeight: label == activeLabel ? FontWeight.w700 : FontWeight.w500,
+                          color: item.id == activeId
+                              ? AppColors.textOnDark
+                              : AppColors.mutedOnDark,
+                          fontWeight: item.id == activeId ? FontWeight.w700 : FontWeight.w500,
                         ),
                       ),
                     ),
                   )
                   .toList(),
+            );
+
+            final langToggle = _LanguageToggle(
+              currentLocale: currentLocale,
+              onChanged: onLocaleChanged,
             );
 
             final socialsRow = Row(
@@ -338,6 +357,7 @@ class TopNavBar extends StatelessWidget {
               return Row(
                 children: [
                   Expanded(child: menu),
+                  langToggle,
                   socialsRow,
                 ],
               );
@@ -347,7 +367,14 @@ class TopNavBar extends StatelessWidget {
               children: [
                 menu,
                 const SizedBox(height: 12),
-                socialsRow,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    langToggle,
+                    const SizedBox(width: 12),
+                    socialsRow,
+                  ],
+                ),
               ],
             );
           },
@@ -355,6 +382,80 @@ class TopNavBar extends StatelessWidget {
       ),
     );
   }
+}
+
+class _LanguageToggle extends StatelessWidget {
+  final Locale currentLocale;
+  final ValueChanged<Locale> onChanged;
+
+  const _LanguageToggle({required this.currentLocale, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    final isFr = currentLocale.languageCode.toLowerCase() == 'fr';
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppColors.borderOnDark),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _LangChip(
+            label: 'EN',
+            active: !isFr,
+            onTap: () => onChanged(const Locale('en')),
+          ),
+          const SizedBox(width: 6),
+          _LangChip(
+            label: 'FR',
+            active: isFr,
+            onTap: () => onChanged(const Locale('fr')),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LangChip extends StatelessWidget {
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  const _LangChip({required this.label, required this.active, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: active ? AppColors.primaryGreen : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          label,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: active ? Colors.white : AppColors.mutedOnDark,
+                fontWeight: FontWeight.w700,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
+class _NavItem {
+  final String id;
+  final String label;
+
+  const _NavItem({required this.id, required this.label});
 }
 
 class _SocialChip extends StatelessWidget {
@@ -443,6 +544,7 @@ class CaseStudiesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.offWhite,
@@ -451,10 +553,9 @@ class CaseStudiesSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Case Studies',
-              subtitle:
-                  'Solving user & business problems since last 15+ years. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            SectionHeader(
+              title: l10n.case_studies_title,
+              subtitle: l10n.case_studies_subtitle,
               dark: false,
             ),
             const SizedBox(height: 36),
@@ -537,7 +638,7 @@ class CaseStudyRow extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         GlowButton(
-          label: 'View case study',
+          label: AppLocalizations.of(context)!.case_study_view,
           color: accent,
           onPressed: () => context.go('/case-study/${caseStudy.id}'),
         ),

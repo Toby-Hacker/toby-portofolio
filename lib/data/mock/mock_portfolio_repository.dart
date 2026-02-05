@@ -32,9 +32,11 @@ class MockPortfolioRepository implements PortfolioRepository {
 
   PortfolioData _build() {
     const profile = PortfolioProfile(
-      name: 'Your Name Here',
+      name: 'Amzath Toby Yehouessi',
       intro:
-          'Intro text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          '''I’m Toby, a developer who builds mobile and web applications from idea to production.
+
+I care about doing things properly — clean architecture, clear communication, and products that don’t fall apart after launch.''',
       heroImageUrl: 'assets/images/hero.png',
       workedWith: [
         PartnerLogo(name: 'Flutter', assetPath: 'assets/logos/flutter.png'),

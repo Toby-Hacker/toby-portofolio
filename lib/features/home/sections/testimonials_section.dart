@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/max_width.dart';
@@ -12,6 +13,7 @@ class TestimonialsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.black,
@@ -20,10 +22,9 @@ class TestimonialsSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Testimonials',
-              subtitle:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            SectionHeader(
+              title: l10n.testimonials_title,
+              subtitle: l10n.testimonials_subtitle,
               dark: true,
             ),
             const SizedBox(height: 40),

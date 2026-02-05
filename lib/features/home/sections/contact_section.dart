@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/glow_button.dart';
@@ -10,6 +11,7 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.black,
@@ -18,16 +20,15 @@ class ContactSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Get In Touch',
-              subtitle:
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            SectionHeader(
+              title: l10n.contact_title,
+              subtitle: l10n.contact_subtitle,
               dark: true,
             ),
             const SizedBox(height: 34),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
-              child: const _ContactForm(),
+              child: _ContactForm(l10n: l10n),
             ),
           ],
         ),
@@ -37,7 +38,9 @@ class ContactSection extends StatelessWidget {
 }
 
 class _ContactForm extends StatefulWidget {
-  const _ContactForm();
+  final AppLocalizations l10n;
+
+  const _ContactForm({required this.l10n});
 
   @override
   State<_ContactForm> createState() => _ContactFormState();
@@ -58,36 +61,43 @@ class _ContactFormState extends State<_ContactForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = widget.l10n;
+    final fieldStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: const Color(0xFF111111),
+        );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _LabeledField(
-          label: 'Email',
+          label: l10n.contact_email_label,
           child: TextField(
             controller: _emailController,
-            decoration: const InputDecoration(hintText: 'Please enter your email'),
+            style: fieldStyle,
+            decoration: InputDecoration(hintText: l10n.contact_email_hint),
           ),
         ),
         const SizedBox(height: 16),
         _LabeledField(
-          label: 'Mobile',
+          label: l10n.contact_mobile_label,
           child: TextField(
             controller: _mobileController,
-            decoration: const InputDecoration(hintText: 'Enter mobile'),
+            style: fieldStyle,
+            decoration: InputDecoration(hintText: l10n.contact_mobile_hint),
           ),
         ),
         const SizedBox(height: 16),
         _LabeledField(
-          label: 'Message',
+          label: l10n.contact_message_label,
           child: TextField(
             controller: _messageController,
             maxLines: 6,
-            decoration: const InputDecoration(hintText: 'Enter your message'),
+            style: fieldStyle,
+            decoration: InputDecoration(hintText: l10n.contact_message_hint),
           ),
         ),
         const SizedBox(height: 20),
         GlowButton(
-          label: 'Submit',
+          label: l10n.contact_submit,
           onPressed: () {},
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         ),

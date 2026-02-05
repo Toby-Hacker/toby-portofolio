@@ -1,7 +1,8 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../../core/theme/app_colors.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/widgets/glow_button.dart';
 import '../../../core/widgets/max_width.dart';
@@ -15,6 +16,7 @@ class RecentWorkSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.offWhite,
@@ -23,10 +25,9 @@ class RecentWorkSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Recent Work',
-              subtitle:
-                  'Solving user & business problems since last 15+ years. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            SectionHeader(
+              title: l10n.recent_work_title,
+              subtitle: l10n.recent_work_subtitle,
               dark: false,
             ),
             const SizedBox(height: 36),
@@ -107,7 +108,7 @@ class RecentWorkCard extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         GlowButton(
-          label: 'Know more',
+          label: AppLocalizations.of(context)!.recent_work_know_more,
           showArrow: true,
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
           onPressed: () => context.go('/work/${work.id}'),

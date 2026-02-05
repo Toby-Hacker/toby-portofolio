@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -45,7 +46,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
           if (!snapshot.hasData) {
             return Center(
               child: Text(
-                'Case study not found',
+                AppLocalizations.of(context)!.case_details_not_found,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
               ),
             );
@@ -56,7 +57,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
           if (index == -1) {
             return Center(
               child: Text(
-                'Case study not found',
+                AppLocalizations.of(context)!.case_details_not_found,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
               ),
             );
@@ -72,7 +73,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
                 const SizedBox(height: 32),
                 _HeroSection(study: study, accent: accent),
                 const SizedBox(height: 60),
-                _OverviewSection(study: study),
+                const _OverviewSection(),
                 const SizedBox(height: 50),
                 const _ApproachSection(),
                 const SizedBox(height: 50),
@@ -103,6 +104,7 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: LayoutBuilder(
@@ -147,14 +149,14 @@ class _HeroSection extends StatelessWidget {
               Wrap(
                 spacing: 16,
                 runSpacing: 12,
-                children: const [
-                  _MetricCard(label: 'Users', value: '120k+'),
-                  _MetricCard(label: 'Uptime', value: '99.9%'),
-                  _MetricCard(label: 'Revenue', value: '\$1.2M'),
+                children: [
+                  _MetricCard(label: l10n.case_details_metric_users_label, value: '120k+'),
+                  _MetricCard(label: l10n.case_details_metric_uptime_label, value: '99.9%'),
+                  _MetricCard(label: l10n.case_details_metric_revenue_label, value: '\$1.2M'),
                 ],
               ),
               const SizedBox(height: 22),
-              GlowButton(label: 'View live', onPressed: () {}),
+              GlowButton(label: l10n.case_details_view_live, onPressed: () {}),
             ],
           );
 
@@ -194,12 +196,11 @@ class _HeroSection extends StatelessWidget {
 }
 
 class _OverviewSection extends StatelessWidget {
-  final CaseStudy study;
-
-  const _OverviewSection({required this.study});
+  const _OverviewSection();
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.cardOnDark,
@@ -208,9 +209,9 @@ class _OverviewSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Project Overview',
-              subtitle: 'A quick look at the problem, goals, and scope of the project.',
+            SectionHeader(
+              title: l10n.case_details_project_overview_title,
+              subtitle: l10n.case_details_project_overview_subtitle,
               dark: true,
             ),
             const SizedBox(height: 28),
@@ -222,23 +223,23 @@ class _OverviewSection extends StatelessWidget {
                   runSpacing: 18,
                   children: [
                     _OverviewTile(
-                      title: 'Problem',
-                      body: 'Legacy tooling slowed down onboarding and reporting for internal teams.',
+                      title: l10n.case_details_problem_title,
+                      body: l10n.case_details_problem_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Goal',
-                      body: 'Deliver a faster, mobile-first experience with reliable data syncing.',
+                      title: l10n.case_details_goal_title,
+                      body: l10n.case_details_goal_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Role & Timeline',
-                      body: 'Full-stack mobile developer • 8 weeks • 2 teammates',
+                      title: l10n.case_details_role_title,
+                      body: l10n.case_details_role_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Deliverables',
-                      body: 'iOS/Android apps, admin dashboard, analytics, and CI/CD.',
+                      title: l10n.case_details_deliverables_title,
+                      body: l10n.case_details_deliverables_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                   ],
@@ -257,20 +258,21 @@ class _ApproachSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Approach',
-            subtitle: 'How the project moved from discovery to delivery.',
+          SectionHeader(
+            title: l10n.case_details_approach_title,
+            subtitle: l10n.case_details_approach_subtitle,
             dark: true,
           ),
           const SizedBox(height: 24),
-          _StepTile(index: '01', title: 'Discovery', body: 'User interviews + flow mapping.'),
-          _StepTile(index: '02', title: 'Design', body: 'Wireframes and UI kit for fast build.'),
-          _StepTile(index: '03', title: 'Build', body: 'Flutter app + backend services.'),
-          _StepTile(index: '04', title: 'Launch', body: 'Monitoring, analytics, and handoff.'),
+          _StepTile(index: '01', title: l10n.case_details_step_1_title, body: l10n.case_details_step_1_body),
+          _StepTile(index: '02', title: l10n.case_details_step_2_title, body: l10n.case_details_step_2_body),
+          _StepTile(index: '03', title: l10n.case_details_step_3_title, body: l10n.case_details_step_3_body),
+          _StepTile(index: '04', title: l10n.case_details_step_4_title, body: l10n.case_details_step_4_body),
         ],
       ),
     );
@@ -284,6 +286,7 @@ class _HighlightsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.offWhite,
@@ -292,9 +295,9 @@ class _HighlightsSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Highlights',
-              subtitle: 'Key features delivered for the project.',
+            SectionHeader(
+              title: l10n.case_details_highlights_title,
+              subtitle: l10n.case_details_highlights_subtitle,
               dark: false,
             ),
             const SizedBox(height: 24),
@@ -313,13 +316,14 @@ class _TechStackSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Tech Stack',
-            subtitle: 'Tools and frameworks used in the build.',
+          SectionHeader(
+            title: l10n.case_details_tech_stack_title,
+            subtitle: l10n.case_details_tech_stack_subtitle,
             dark: true,
           ),
           const SizedBox(height: 18),
@@ -357,6 +361,7 @@ class _ChallengesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.cardOnDark,
@@ -365,19 +370,19 @@ class _ChallengesSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Challenges & Solutions',
-              subtitle: 'Key tradeoffs and how they were resolved.',
+            SectionHeader(
+              title: l10n.case_details_challenges_title,
+              subtitle: l10n.case_details_challenges_subtitle,
               dark: true,
             ),
             const SizedBox(height: 24),
             _ChallengeTile(
-              title: 'Offline reliability',
-              body: 'Added local caching with queued sync when connectivity returns.',
+              title: l10n.case_details_challenge_1_title,
+              body: l10n.case_details_challenge_1_body,
             ),
             _ChallengeTile(
-              title: 'Performance under load',
-              body: 'Optimized API responses and reduced payload size by 35%.',
+              title: l10n.case_details_challenge_2_title,
+              body: l10n.case_details_challenge_2_body,
             ),
           ],
         ),
@@ -391,23 +396,24 @@ class _OutcomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Outcome',
-            subtitle: 'Results delivered after launch.',
+          SectionHeader(
+            title: l10n.case_details_outcome_title,
+            subtitle: l10n.case_details_outcome_subtitle,
             dark: true,
           ),
           const SizedBox(height: 20),
           Wrap(
             spacing: 18,
             runSpacing: 18,
-            children: const [
-              _MetricCard(label: 'Retention', value: '+22%'),
-              _MetricCard(label: 'Processing time', value: '-40%'),
-              _MetricCard(label: 'NPS', value: '64'),
+            children: [
+              _MetricCard(label: l10n.case_details_metric_retention_label, value: '+22%'),
+              _MetricCard(label: l10n.case_details_metric_processing_time_label, value: '-40%'),
+              _MetricCard(label: l10n.case_details_metric_nps_label, value: '64'),
             ],
           ),
           const SizedBox(height: 22),
@@ -419,7 +425,7 @@ class _OutcomeSection extends StatelessWidget {
               border: Border.all(color: AppColors.borderOnDark),
             ),
             child: Text(
-              '“Great collaboration and execution. The product is faster and more reliable than before.”',
+              l10n.case_details_quote,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.mutedOnDark,
                     height: 1.6,
@@ -440,6 +446,7 @@ class _NextCaseStudySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.offWhite,
@@ -448,9 +455,9 @@ class _NextCaseStudySection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Next Case Study',
-              subtitle: 'Explore another project in the portfolio.',
+            SectionHeader(
+              title: l10n.case_details_next_title,
+              subtitle: l10n.case_details_next_subtitle,
               dark: false,
             ),
             const SizedBox(height: 24),
@@ -482,7 +489,7 @@ class _NextCaseStudySection extends StatelessWidget {
             ),
             const SizedBox(height: 18),
             GlowButton(
-              label: 'View case study',
+              label: l10n.case_study_view,
               onPressed: () => context.go('/case-study/${study.id}'),
             ),
           ],

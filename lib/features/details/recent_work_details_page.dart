@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -33,7 +34,7 @@ class RecentWorkDetailsPage extends StatelessWidget {
           if (work == null) {
             return Center(
               child: Text(
-                'Recent work not found',
+                AppLocalizations.of(context)!.recent_details_not_found,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
               ),
             );
@@ -69,6 +70,7 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: LayoutBuilder(
@@ -94,7 +96,7 @@ class _HeroSection extends StatelessWidget {
                     ),
               ),
               const SizedBox(height: 20),
-              GlowButton(label: 'Visit project', onPressed: () {}),
+              GlowButton(label: l10n.recent_details_visit_project, onPressed: () {}),
             ],
           );
 
@@ -138,6 +140,7 @@ class _OverviewSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.cardOnDark,
@@ -146,9 +149,9 @@ class _OverviewSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Project Overview',
-              subtitle: 'A quick summary of the work delivered and why it mattered.',
+            SectionHeader(
+              title: l10n.recent_details_project_overview_title,
+              subtitle: l10n.recent_details_project_overview_subtitle,
               dark: true,
             ),
             const SizedBox(height: 28),
@@ -160,23 +163,23 @@ class _OverviewSection extends StatelessWidget {
                   runSpacing: 18,
                   children: [
                     _OverviewTile(
-                      title: 'Scope',
-                      body: 'End-to-end delivery with focus on mobile experience.',
+                      title: l10n.recent_details_scope_title,
+                      body: l10n.recent_details_scope_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Role',
-                      body: 'Full-stack mobile development and release planning.',
+                      title: l10n.recent_details_role_title,
+                      body: l10n.recent_details_role_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Timeline',
-                      body: '6 weeks from discovery to launch.',
+                      title: l10n.recent_details_timeline_title,
+                      body: l10n.recent_details_timeline_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                     _OverviewTile(
-                      title: 'Deliverables',
-                      body: 'Mobile apps, backend services, and analytics.',
+                      title: l10n.recent_details_deliverables_title,
+                      body: l10n.recent_details_deliverables_body,
                       width: isWide ? (constraints.maxWidth - 24) / 2 : constraints.maxWidth,
                     ),
                   ],
@@ -197,6 +200,7 @@ class _HighlightsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       color: AppColors.offWhite,
@@ -205,15 +209,15 @@ class _HighlightsSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Column(
           children: [
-            const SectionHeader(
-              title: 'Highlights',
-              subtitle: 'Key wins and improvements from this work.',
+            SectionHeader(
+              title: l10n.recent_details_highlights_title,
+              subtitle: l10n.recent_details_highlights_subtitle,
               dark: false,
             ),
             const SizedBox(height: 24),
-            _BulletItem(text: 'Shipped new flows for onboarding and core features.'),
-            _BulletItem(text: 'Improved performance and reliability metrics.'),
-            _BulletItem(text: 'Reduced support tickets with clearer UX.'),
+            _BulletItem(text: l10n.recent_details_highlight_1),
+            _BulletItem(text: l10n.recent_details_highlight_2),
+            _BulletItem(text: l10n.recent_details_highlight_3),
           ],
         ),
       ),
@@ -228,13 +232,14 @@ class _TechStackSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Tech Stack',
-            subtitle: 'Tools and frameworks used in the build.',
+          SectionHeader(
+            title: l10n.recent_details_tech_stack_title,
+            subtitle: l10n.recent_details_tech_stack_subtitle,
             dark: true,
           ),
           const SizedBox(height: 18),
@@ -272,28 +277,29 @@ class _OutcomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Outcome',
-            subtitle: 'Results delivered after launch.',
+          SectionHeader(
+            title: l10n.recent_details_outcome_title,
+            subtitle: l10n.recent_details_outcome_subtitle,
             dark: true,
           ),
           const SizedBox(height: 20),
           Wrap(
             spacing: 18,
             runSpacing: 18,
-            children: const [
-              _MetricCard(label: 'Retention', value: '+18%'),
-              _MetricCard(label: 'Latency', value: '-30%'),
-              _MetricCard(label: 'Crash rate', value: '-45%'),
+            children: [
+              _MetricCard(label: l10n.recent_details_metric_retention_label, value: '+18%'),
+              _MetricCard(label: l10n.recent_details_metric_latency_label, value: '-30%'),
+              _MetricCard(label: l10n.recent_details_metric_crash_rate_label, value: '-45%'),
             ],
           ),
           const SizedBox(height: 22),
           GlowButton(
-            label: 'Back to home',
+            label: l10n.recent_details_back_home,
             onPressed: () => context.go('/'),
           ),
         ],
