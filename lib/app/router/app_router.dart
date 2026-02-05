@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/details/case_study_details_page.dart';
 import '../../features/home/home_page.dart';
 
 class AppRouter {
@@ -13,7 +14,7 @@ class AppRouter {
         path: '/case-study/:id',
         pageBuilder: (context, state) {
           final id = state.pathParameters['id']!;
-          return MaterialPage(child: Placeholder());
+          return MaterialPage(child: CaseStudyDetailsPage(caseStudyId: id));
         },
       ),
       GoRoute(
