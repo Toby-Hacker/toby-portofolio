@@ -12,8 +12,37 @@ import 'sections/contact_section.dart';
 import 'sections/recent_work_section.dart';
 import 'sections/testimonials_section.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final _scrollController = ScrollController();
+  final _heroKey = GlobalKey();
+  final _caseStudiesKey = GlobalKey();
+  final _testimonialsKey = GlobalKey();
+  final _recentWorkKey = GlobalKey();
+  final _contactKey = GlobalKey();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollTo(GlobalKey key) {
+    final context = key.currentContext;
+    if (context == null) return;
+    Scrollable.ensureVisible(
+      context,
+      duration: const Duration(milliseconds: 480),
+      curve: Curves.easeInOutCubic,
+      alignment: 0.1,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +71,37 @@ class HomePage extends StatelessWidget {
           }
 
           return SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               children: [
                 const SizedBox(height: 24),
-                TopNavBar(socials: data.profile.socials),
+                TopNavBar(
+                  socials: data.profile.socials,
+                  onNavTap: (label) {
+                    switch (label) {
+                      case 'Home':
+                        _scrollTo(_heroKey);
+                      case 'Case Studies':
+                        _scrollTo(_caseStudiesKey);
+                      case 'Testimonials':
+                        _scrollTo(_testimonialsKey);
+                      case 'Recent work':
+                        _scrollTo(_recentWorkKey);
+                      case 'Get In Touch':
+                        _scrollTo(_contactKey);
+                    }
+                  },
+                ),
                 const SizedBox(height: 40),
-                HeroSection(profile: data.profile),
+                HeroSection(key: _heroKey, profile: data.profile),
                 const SizedBox(height: 90),
-                CaseStudiesSection(caseStudies: data.caseStudies),
+                CaseStudiesSection(key: _caseStudiesKey, caseStudies: data.caseStudies),
                 const SizedBox(height: 90),
-                TestimonialsSection(testimonials: data.testimonials),
+                TestimonialsSection(key: _testimonialsKey, testimonials: data.testimonials),
                 const SizedBox(height: 90),
-                RecentWorkSection(work: data.recentWork),
+                RecentWorkSection(key: _recentWorkKey, work: data.recentWork),
                 const SizedBox(height: 90),
-                const ContactSection(),
+                ContactSection(key: _contactKey),
                 const SizedBox(height: 90),
               ],
             ),
@@ -153,8 +199,9 @@ class HeroSection extends StatelessWidget {
 
 class TopNavBar extends StatelessWidget {
   final List<SocialLink> socials;
+  final ValueChanged<String> onNavTap;
 
-  const TopNavBar({super.key, required this.socials});
+  const TopNavBar({super.key, required this.socials, required this.onNavTap});
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +243,12 @@ class TopNavBar extends StatelessWidget {
               runSpacing: 12,
               alignment: WrapAlignment.center,
               children: items
-                  .map((label) => Text(label, style: navStyle))
+                  .map(
+                    (label) => InkWell(
+                      onTap: () => onNavTap(label),
+                      child: Text(label, style: navStyle),
+                    ),
+                  )
                   .toList(),
             );
 
