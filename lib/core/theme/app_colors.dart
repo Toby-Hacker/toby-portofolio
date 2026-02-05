@@ -10,6 +10,7 @@ class AppColors {
   static const Color mutedOnDark = Color(0xFF9C9C9C);
   static const Color borderOnDark = Color(0xFF2A2A2A);
   static const Color cardOnDark = Color(0xFF0F0F0F);
+  static const Color cardOnLight = Color(0xFFFFFFFF);
 
   // Accent (green) used across the design.
   static const Color primaryGreen = Color(0xFF3F8E00);

@@ -421,7 +421,7 @@ class PartnerLogoCard extends StatelessWidget {
       height: 54,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.cardOnDark,
+        color: AppColors.cardOnLight,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderOnDark),
       ),
