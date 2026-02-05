@@ -26,11 +26,53 @@ class _HomePageState extends State<HomePage> {
   final _testimonialsKey = GlobalKey();
   final _recentWorkKey = GlobalKey();
   final _contactKey = GlobalKey();
+  String _activeSection = 'Home';
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) => _updateActiveSection());
+  }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    _updateActiveSection();
+  }
+
+  void _updateActiveSection() {
+    final sections = <String, GlobalKey>{
+      'Home': _heroKey,
+      'Case Studies': _caseStudiesKey,
+      'Testimonials': _testimonialsKey,
+      'Recent work': _recentWorkKey,
+      'Get In Touch': _contactKey,
+    };
+
+    const threshold = 140.0;
+    String? current;
+
+    for (final entry in sections.entries) {
+      final context = entry.value.currentContext;
+      if (context == null) continue;
+      final box = context.findRenderObject();
+      if (box is! RenderBox) continue;
+      final offset = box.localToGlobal(Offset.zero).dy;
+      if (offset <= threshold) {
+        current = entry.key;
+      }
+    }
+
+    current ??= 'Home';
+    if (current != _activeSection && mounted) {
+      setState(() => _activeSection = current!);
+    }
   }
 
   void _scrollTo(GlobalKey key) {
@@ -70,41 +112,59 @@ class _HomePageState extends State<HomePage> {
             return const SizedBox.shrink();
           }
 
-          return SingleChildScrollView(
+          return CustomScrollView(
             controller: _scrollController,
-            child: Column(
-              children: [
-                const SizedBox(height: 24),
-                TopNavBar(
-                  socials: data.profile.socials,
-                  onNavTap: (label) {
-                    switch (label) {
-                      case 'Home':
-                        _scrollTo(_heroKey);
-                      case 'Case Studies':
-                        _scrollTo(_caseStudiesKey);
-                      case 'Testimonials':
-                        _scrollTo(_testimonialsKey);
-                      case 'Recent work':
-                        _scrollTo(_recentWorkKey);
-                      case 'Get In Touch':
-                        _scrollTo(_contactKey);
-                    }
-                  },
+            slivers: [
+              const SliverToBoxAdapter(child: SizedBox(height: 16)),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: _NavHeaderDelegate(
+                  minHeight: 90,
+                  maxHeight: 90,
+                  child: TopNavBar(
+                    socials: data.profile.socials,
+                    activeLabel: _activeSection,
+                    onNavTap: (label) {
+                      switch (label) {
+                        case 'Home':
+                          _scrollTo(_heroKey);
+                          break;
+                        case 'Case Studies':
+                          _scrollTo(_caseStudiesKey);
+                          break;
+                        case 'Testimonials':
+                          _scrollTo(_testimonialsKey);
+                          break;
+                        case 'Recent work':
+                          _scrollTo(_recentWorkKey);
+                          break;
+                        case 'Get In Touch':
+                          _scrollTo(_contactKey);
+                          break;
+                      }
+                    },
+                  ),
                 ),
-                const SizedBox(height: 40),
-                HeroSection(key: _heroKey, profile: data.profile),
-                const SizedBox(height: 90),
-                CaseStudiesSection(key: _caseStudiesKey, caseStudies: data.caseStudies),
-                const SizedBox(height: 90),
-                TestimonialsSection(key: _testimonialsKey, testimonials: data.testimonials),
-                const SizedBox(height: 90),
-                RecentWorkSection(key: _recentWorkKey, work: data.recentWork),
-                const SizedBox(height: 90),
-                ContactSection(key: _contactKey),
-                const SizedBox(height: 90),
-              ],
-            ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 40)),
+              SliverToBoxAdapter(child: HeroSection(key: _heroKey, profile: data.profile)),
+              const SliverToBoxAdapter(child: SizedBox(height: 90)),
+              SliverToBoxAdapter(
+                child: CaseStudiesSection(key: _caseStudiesKey, caseStudies: data.caseStudies),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 90)),
+              SliverToBoxAdapter(
+                child: TestimonialsSection(
+                  key: _testimonialsKey,
+                  testimonials: data.testimonials,
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 90)),
+              SliverToBoxAdapter(child: RecentWorkSection(key: _recentWorkKey, work: data.recentWork)),
+              const SliverToBoxAdapter(child: SizedBox(height: 90)),
+              SliverToBoxAdapter(child: ContactSection(key: _contactKey)),
+              const SliverToBoxAdapter(child: SizedBox(height: 90)),
+            ],
           );
         },
       ),
@@ -200,16 +260,19 @@ class HeroSection extends StatelessWidget {
 class TopNavBar extends StatelessWidget {
   final List<SocialLink> socials;
   final ValueChanged<String> onNavTap;
+  final String activeLabel;
 
-  const TopNavBar({super.key, required this.socials, required this.onNavTap});
+  const TopNavBar({
+    super.key,
+    required this.socials,
+    required this.onNavTap,
+    required this.activeLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final navStyle = theme.textTheme.bodySmall?.copyWith(
-      color: AppColors.mutedOnDark,
-      letterSpacing: 1.1,
-    );
+    final navStyle = theme.textTheme.bodySmall?.copyWith(letterSpacing: 1.1);
 
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -246,7 +309,14 @@ class TopNavBar extends StatelessWidget {
                   .map(
                     (label) => InkWell(
                       onTap: () => onNavTap(label),
-                      child: Text(label, style: navStyle),
+                      child: Text(
+                        label,
+                        style: navStyle?.copyWith(
+                          color:
+                              label == activeLabel ? AppColors.textOnDark : AppColors.mutedOnDark,
+                          fontWeight: label == activeLabel ? FontWeight.w700 : FontWeight.w500,
+                        ),
+                      ),
                     ),
                   )
                   .toList(),
@@ -534,5 +604,39 @@ class _LogoFallback extends StatelessWidget {
             ),
       ),
     );
+  }
+}
+
+class _NavHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+
+  _NavHeaderDelegate({
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
+  });
+
+  @override
+  double get minExtent => minHeight;
+
+  @override
+  double get maxExtent => maxHeight;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: AppColors.black,
+      alignment: Alignment.center,
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _NavHeaderDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
   }
 }
