@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -417,8 +416,6 @@ class PartnerLogoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSvg = logo.assetPath.toLowerCase().endsWith('.svg');
-
     return Container(
       width: 150,
       height: 54,
@@ -428,22 +425,12 @@ class PartnerLogoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderOnDark),
       ),
-      child: isSvg
-          ? SvgPicture.asset(
-              logo.assetPath,
-              fit: BoxFit.contain,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFF5B5B5B),
-                BlendMode.srcIn,
-              ),
-              placeholderBuilder: (context) => _LogoFallback(name: logo.name),
-            )
-          : Image.asset(
-              logo.assetPath,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.medium,
-              errorBuilder: (context, error, stackTrace) => _LogoFallback(name: logo.name),
-            ),
+      child: Image.asset(
+        logo.assetPath,
+        fit: BoxFit.contain,
+        filterQuality: FilterQuality.medium,
+        errorBuilder: (context, error, stackTrace) => _LogoFallback(name: logo.name),
+      ),
     );
   }
 }
