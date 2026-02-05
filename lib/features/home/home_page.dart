@@ -8,6 +8,8 @@ import '../../core/widgets/max_width.dart';
 import '../../core/widgets/section_header.dart';
 import '../../domain/models/portfolio_models.dart';
 import 'bloc/portfolio_bloc.dart';
+import 'sections/contact_section.dart';
+import 'sections/recent_work_section.dart';
 import 'sections/testimonials_section.dart';
 
 class HomePage extends StatelessWidget {
@@ -50,6 +52,10 @@ class HomePage extends StatelessWidget {
                 CaseStudiesSection(caseStudies: data.caseStudies),
                 const SizedBox(height: 90),
                 TestimonialsSection(testimonials: data.testimonials),
+                const SizedBox(height: 90),
+                RecentWorkSection(work: data.recentWork),
+                const SizedBox(height: 90),
+                const ContactSection(),
                 const SizedBox(height: 90),
               ],
             ),
