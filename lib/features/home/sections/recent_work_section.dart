@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../core/widgets/glow_button.dart';
 import '../../../core/widgets/max_width.dart';
 import '../../../core/widgets/section_header.dart';
@@ -108,7 +110,7 @@ class RecentWorkCard extends StatelessWidget {
           label: 'Know more',
           showArrow: true,
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-          onPressed: () {},
+          onPressed: () => context.go('/work/${work.id}'),
         ),
       ],
     );
