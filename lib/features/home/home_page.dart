@@ -6,6 +6,7 @@ import 'package:toby_portfolio/l10n/app_localizations.dart';
 import '../../core/localization/locale_controller.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
+import '../../core/widgets/hover_zoom.dart';
 import '../../core/widgets/max_width.dart';
 import '../../core/widgets/section_header.dart';
 import '../../domain/models/portfolio_models.dart';
@@ -594,11 +595,13 @@ class CaseStudyRow extends StatelessWidget {
 
     final imageCard = ClipRRect(
       borderRadius: BorderRadius.circular(14),
-      child: Image.asset(
-        caseStudy.imageUrl,
-        width: 520,
-        height: 320,
-        fit: BoxFit.cover,
+      child: HoverZoom(
+        child: Image.asset(
+          caseStudy.imageUrl,
+          width: 520,
+          height: 320,
+          fit: BoxFit.cover,
+        ),
       ),
     );
 

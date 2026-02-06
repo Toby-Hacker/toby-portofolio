@@ -5,6 +5,7 @@ import 'package:toby_portfolio/l10n/app_localizations.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
+import '../../core/widgets/hover_zoom.dart';
 import '../../core/widgets/max_width.dart';
 import '../../core/widgets/section_header.dart';
 import '../../domain/models/portfolio_models.dart';
@@ -102,11 +103,13 @@ class _HeroSection extends StatelessWidget {
 
           final image = ClipRRect(
             borderRadius: BorderRadius.circular(18),
-            child: Image.asset(
-              work.imageUrl,
-              width: 520,
-              height: 320,
-              fit: BoxFit.cover,
+            child: HoverZoom(
+              child: Image.asset(
+                work.imageUrl,
+                width: 520,
+                height: 320,
+                fit: BoxFit.cover,
+              ),
             ),
           );
 
