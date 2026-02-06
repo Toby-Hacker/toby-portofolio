@@ -315,6 +315,7 @@ class TopNavBar extends StatelessWidget {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isWide = constraints.maxWidth >= 900;
+            final isCompact = constraints.maxWidth < 720;
             final menu = Wrap(
               spacing: 28,
               runSpacing: 12,
@@ -364,6 +365,36 @@ class TopNavBar extends StatelessWidget {
               );
             }
 
+            if (isCompact) {
+              return Row(
+                children: [
+                  _MenuButton(
+                    onTap: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        backgroundColor: const Color(0xFF121212),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+                        ),
+                        builder: (context) => _NavMenuSheet(
+                          items: items,
+                          socials: socials,
+                          currentLocale: currentLocale,
+                          onLocaleChanged: onLocaleChanged,
+                          onNavTap: (id) {
+                            Navigator.of(context).pop();
+                            onNavTap(id);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                  const Spacer(),
+                  langToggle,
+                ],
+              );
+            }
+
             return Column(
               children: [
                 menu,
@@ -379,6 +410,79 @@ class TopNavBar extends StatelessWidget {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _MenuButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(10),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1A1A),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.borderOnDark),
+        ),
+        child: const Icon(Icons.menu, color: Colors.white, size: 20),
+      ),
+    );
+  }
+}
+
+class _NavMenuSheet extends StatelessWidget {
+  final List<_NavItem> items;
+  final List<SocialLink> socials;
+  final Locale currentLocale;
+  final ValueChanged<Locale> onLocaleChanged;
+  final ValueChanged<String> onNavTap;
+
+  const _NavMenuSheet({
+    required this.items,
+    required this.socials,
+    required this.currentLocale,
+    required this.onLocaleChanged,
+    required this.onNavTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _LanguageToggle(currentLocale: currentLocale, onChanged: onLocaleChanged),
+            const SizedBox(height: 16),
+            ...items.map(
+              (item) => ListTile(
+                onTap: () => onNavTap(item.id),
+                title: Text(
+                  item.label,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.textOnDark,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 12,
+              children: socials.map((s) => _SocialChip(label: s.label)).toList(),
+            ),
+          ],
         ),
       ),
     );
