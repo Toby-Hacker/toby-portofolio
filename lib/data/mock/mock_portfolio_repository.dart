@@ -32,7 +32,7 @@ class MockPortfolioRepository implements PortfolioRepository {
 
   PortfolioData _build() {
     const profile = PortfolioProfile(
-      name: 'Amzath Toby Yehouessi',
+      name: 'Amzath Yehouessi (Toby)',
       intro:
           '''I’m Toby, a developer who builds mobile and web applications from idea to production.
 
@@ -57,12 +57,12 @@ I care about doing things properly — clean architecture, clear communication, 
 
     const caseStudies = <CaseStudy>[
       CaseStudy(
-        id: 'fintech',
-        tag: 'Fintech',
-        title: 'Work name here',
+        id: 'motiboutik_customer_web',
+        tag: 'E-commerce',
+        title: 'Motiboutik Custom Web Store',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        imageUrl: 'assets/images/case_fintech.png',
+        imageUrl: 'assets/images/projects_shots/motiboutik_customer_1.png',
         accent: 'amber',
         highlights: [
           'Subscription billing (Stripe) + webhooks',
