@@ -15,16 +15,32 @@ enum StackIcon {
     label: 'Firebase',
     svgStr: '',
   ),
+  bloc(
+    label: 'Bloc',
+    svgStr: '',
+  ),
   nodejs(
     label: 'Node.js',
     svgStr: '',
   ),
-  postgres(
+  typescript(
+    label: 'TypeScript',
+    svgStr: '',
+  ),
+  postgresql(
     label: 'PostgreSQL',
     svgStr: '',
   ),
   stripe(
     label: 'Stripe',
+    svgStr: '',
+  ),
+  render(
+    label: 'Render',
+    svgStr: '',
+  ),
+  vercel(
+    label: 'Vercel',
     svgStr: '',
   ),
   aws(

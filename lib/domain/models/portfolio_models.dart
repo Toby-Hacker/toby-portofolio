@@ -32,7 +32,7 @@ class CaseStudy extends Equatable {
   final String imageUrl;
   final List<String> gallery;
   final String accent; // amber | blue | teal
-  final List<String> approachSteps;
+  final List<CaseStep> approachSteps;
   final List<String> highlights;
   final List<CaseChallenge> challenges;
   final List<StackIcon> stack;
@@ -89,6 +89,16 @@ class CaseChallenge extends Equatable {
   final String body;
 
   const CaseChallenge({required this.title, required this.body});
+
+  @override
+  List<Object?> get props => [title, body];
+}
+
+class CaseStep extends Equatable {
+  final String title;
+  final String body;
+
+  const CaseStep({required this.title, required this.body});
 
   @override
   List<Object?> get props => [title, body];

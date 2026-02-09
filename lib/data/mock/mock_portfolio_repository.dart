@@ -66,10 +66,13 @@ I care about doing things properly — clean architecture, clear communication, 
         title: 'Explotel Mobile App',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        problem: 'Legacy tools slowed ticket scanning and event reporting on-site.',
-        goal: 'Deliver a fast, offline-capable mobile experience for staff and attendees.',
+        problem:
+            'Legacy tools slowed ticket scanning and event reporting on-site.',
+        goal:
+            'Deliver a fast, offline-capable mobile experience for staff and attendees.',
         roleTimeline: 'Full-stack mobile developer • 10 weeks • 3 teammates',
-        deliverables: 'iOS/Android apps, admin dashboard, analytics, and CI/CD.',
+        deliverables:
+            'iOS/Android apps, admin dashboard, analytics, and CI/CD.',
         imageUrl: 'assets/images/projects_shots/explotel_mob_3.png',
         gallery: [
           'assets/images/projects_shots/explotel_mob_3.png',
@@ -77,10 +80,16 @@ I care about doing things properly — clean architecture, clear communication, 
         ],
         accent: 'teal',
         approachSteps: [
-          'Discovery: user interviews + flow mapping.',
-          'Design: wireframes and UI kit for rapid iteration.',
-          'Build: Flutter app + backend services.',
-          'Launch: monitoring, analytics, and handoff.',
+          CaseStep(title: 'Discovery', body: 'User interviews + flow mapping.'),
+          CaseStep(
+            title: 'Design',
+            body: 'Wireframes and UI kit for rapid iteration.',
+          ),
+          CaseStep(title: 'Build', body: 'Flutter app + backend services.'),
+          CaseStep(
+            title: 'Launch',
+            body: 'Monitoring, analytics, and handoff.',
+          ),
         ],
         highlights: [
           'Multi-tenant catalogs & pricing tiers',
@@ -90,7 +99,8 @@ I care about doing things properly — clean architecture, clear communication, 
         challenges: [
           CaseChallenge(
             title: 'Offline reliability',
-            body: 'Added local caching with queued sync when connectivity returns.',
+            body:
+                'Added local caching with queued sync when connectivity returns.',
           ),
           CaseChallenge(
             title: 'Performance under load',
@@ -101,75 +111,138 @@ I care about doing things properly — clean architecture, clear communication, 
           StackIcon.flutter,
           StackIcon.nodejs,
           StackIcon.aws,
-          StackIcon.postgres,
+          StackIcon.postgresql,
         ],
         outcomes: [
           CaseMetric(label: 'Users', value: '120k+'),
           CaseMetric(label: 'Uptime', value: '99.9%'),
           CaseMetric(label: 'Revenue', value: '\$1.2M'),
         ],
-        quote: '“Great collaboration and execution. The product is faster and more reliable.”',
+        quote:
+            '“Great collaboration and execution. The product is faster and more reliable.”',
         liveUrl:
             'https://play.google.com/store/apps/details?id=com.explotel.app',
       ),
       CaseStudy(
-        id: 'motiboutik-mobile',
-        tag: 'E-commerce',
-        title: 'Work name here',
+        id: 'motiboutik',
+        tag: 'Client Project • Upwork',
+        title: 'Motiboutik — Seller-centric E-commerce Platform',
         summary:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        problem: 'Mobile shoppers dropped off during checkout due to slow flows.',
-        goal: 'Increase conversion with a streamlined, reliable mobile checkout.',
-        roleTimeline: 'Mobile lead • 8 weeks • 2 teammates',
-        deliverables: 'Mobile apps, order management, and push notifications.',
+            'A custom multi-tenant e-commerce platform built for an Upwork client, enabling sellers to create online stores, manage catalogs, orders, payments, and deliveries from a single system.',
+        problem:
+            'The client needed a solution tailored to local sellers who relied on WhatsApp and social media, with no structured way to manage catalogs, track orders, coordinate deliveries, or scale operations. Existing platforms were either too complex, too expensive, or poorly adapted to local workflows.',
+        goal:
+            'Deliver a production-ready platform aligned with the client’s business model, allowing sellers to launch stores quickly while centralizing sales, payments, subscriptions, and delivery management in a scalable system.',
+        roleTimeline:
+            'Lead Full-Stack Developer (Freelance, Upwork) • Multi-month engagement • Solo developer',
+        deliverables:
+            'Seller mobile application, customer storefront (web), backend API, database schema, subscription & billing system, delivery management module, and admin configuration tools.',
         imageUrl: 'assets/images/projects_shots/motiboutik_mob_2.png',
         gallery: [
-          'assets/images/projects_shots/motiboutik_mob_2.png',
-          'assets/images/projects_shots/motiboutik_mob_2.png',
+          'assets/case_studies/motiboutik/seller_dashboard.png',
+          'assets/case_studies/motiboutik/orders.png',
+          'assets/case_studies/motiboutik/storefront.png',
+          'assets/case_studies/motiboutik/delivery_tracking.png',
         ],
-        accent: 'blue',
+        accent: 'amber',
         approachSteps: [
-          'Audit funnel and identify drop-off points.',
-          'Prototype new checkout and validate with users.',
-          'Implement optimized flow and payment handling.',
-          'Monitor conversion and iterate.',
+          CaseStep(
+            title: 'Discovery & alignment',
+            body:
+                'Worked closely with the client to understand seller workflows, business rules, and operational constraints before locking any technical decisions.',
+          ),
+          CaseStep(
+            title: 'System architecture',
+            body:
+                'Designed a scalable multi-tenant architecture with clear domain boundaries to safely support multiple sellers on shared infrastructure.',
+          ),
+          CaseStep(
+            title: 'Backend-first implementation',
+            body:
+                'Implemented core backend domains first (catalog, orders, payments, deliveries) to ensure data integrity and predictable workflows.',
+          ),
+          CaseStep(
+            title: 'Mobile-first experience',
+            body:
+                'Built the seller-facing mobile app with reusable UI components and consistent UX patterns tailored to real seller usage.',
+          ),
+          CaseStep(
+            title: 'Iterative delivery',
+            body:
+                'Released features incrementally, validated assumptions with the client, and refined flows based on real-world feedback.',
+          ),
         ],
         highlights: [
-          'Offline-first mobile experience',
-          'Push notifications & deep links',
-          'Admin tooling for content lifecycle',
+          'Multi-seller store creation and onboarding',
+          'Product and multi-catalog management',
+          'End-to-end order lifecycle tracking',
+          'Delivery assignment and status workflows',
+          'Subscription-based feature gating',
+          'Multiple payment method support',
+          'Scalable architecture ready for growth',
         ],
         challenges: [
           CaseChallenge(
-            title: 'Payment reliability',
-            body: 'Added retries and fallback providers to reduce failed payments.',
+            title: 'Multi-tenant data isolation',
+            body:
+                'Ensuring strict separation between sellers while sharing the same infrastructure. Solved using scoped queries, ownership checks, and clear domain boundaries.',
           ),
           CaseChallenge(
-            title: 'App startup time',
-            body: 'Lazy-loaded non-critical modules and optimized assets.',
+            title: 'Complex order and delivery states',
+            body:
+                'Orders and deliveries had many edge cases. Implemented explicit state enums and predictable workflows to avoid inconsistencies.',
+          ),
+          CaseChallenge(
+            title: 'Subscription-based access control',
+            body:
+                'Different plans required different feature access. Solved with centralized plan rules and runtime capability checks.',
+          ),
+          CaseChallenge(
+            title: 'Maintaining velocity as a solo freelancer',
+            body:
+                'Balanced speed and quality by building modular services and reusable UI components.',
           ),
         ],
         stack: [
           StackIcon.flutter,
-          StackIcon.firebase,
-          StackIcon.dart,
+          StackIcon.bloc,
+          StackIcon.nodejs,
+          StackIcon.typescript,
+          StackIcon.postgresql,
+          StackIcon.stripe,
+          StackIcon.render,
+          StackIcon.vercel,
         ],
         outcomes: [
-          CaseMetric(label: 'Conversion', value: '+18%'),
-          CaseMetric(label: 'Crash rate', value: '-45%'),
-          CaseMetric(label: 'Checkout time', value: '-32%'),
+          CaseMetric(
+            label: 'Architecture',
+            value: 'Production-ready & scalable',
+          ),
+          CaseMetric(label: 'Seller workflow', value: 'Fully centralized'),
+          CaseMetric(
+            label: 'Delivery handling',
+            value: 'Automated status tracking',
+          ),
+          CaseMetric(
+            label: 'Client status',
+            value: 'Actively evolving platform',
+          ),
         ],
-        quote: '“Checkout is faster and customers are finishing orders.”',
-        liveUrl: null,
+        quote:
+            'Delivered a solid technical foundation that allows us to onboard sellers and iterate quickly.',
+        liveUrl: null, // client-owned / private
       ),
+
       CaseStudy(
         id: 'motiboutik-customer-web',
         tag: 'E-commerce',
         title: 'Motiboutik Custom Web Store',
         summary:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
-        problem: 'The previous web store was rigid and hard to scale for campaigns.',
-        goal: 'Build a flexible storefront with fast performance and integrations.',
+        problem:
+            'The previous web store was rigid and hard to scale for campaigns.',
+        goal:
+            'Build a flexible storefront with fast performance and integrations.',
         roleTimeline: 'Full-stack developer • 6 weeks • Solo',
         deliverables: 'Customer web store, CMS integration, analytics.',
         imageUrl: 'assets/images/projects_shots/motiboutik_customer_2.png',
@@ -179,10 +252,19 @@ I care about doing things properly — clean architecture, clear communication, 
         ],
         accent: 'amber',
         approachSteps: [
-          'Map requirements with marketing and ops.',
-          'Design modular components for campaigns.',
-          'Implement storefront and backend APIs.',
-          'Launch with analytics and monitoring.',
+          CaseStep(
+            title: 'Requirements',
+            body: 'Align marketing and ops on scope.',
+          ),
+          CaseStep(
+            title: 'Design',
+            body: 'Build modular components for campaigns.',
+          ),
+          CaseStep(
+            title: 'Build',
+            body: 'Implement storefront + backend APIs.',
+          ),
+          CaseStep(title: 'Launch', body: 'Analytics and monitoring setup.'),
         ],
         highlights: [
           'Subscription billing (Stripe) + webhooks',
@@ -198,7 +280,7 @@ I care about doing things properly — clean architecture, clear communication, 
         stack: [
           StackIcon.flutter,
           StackIcon.nodejs,
-          StackIcon.postgres,
+          StackIcon.postgresql,
           StackIcon.stripe,
         ],
         outcomes: [

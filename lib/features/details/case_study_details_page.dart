@@ -10,6 +10,7 @@ import '../../core/widgets/glow_button.dart';
 import '../../core/widgets/hover_zoom.dart';
 import '../../core/widgets/max_width.dart';
 import '../../core/widgets/section_header.dart';
+import '../../core/widgets/section_wrapper.dart';
 import '../../domain/models/portfolio_models.dart';
 import '../../domain/repositories/portfolio_repository.dart';
 
@@ -81,23 +82,60 @@ class CaseStudyDetailsPage extends StatelessWidget {
           return SingleChildScrollView(
             child: Column(
               children: [
-                const SizedBox(height: 32),
-                _HeroSection(study: study, accent: accent),
-                const SizedBox(height: 60),
-                _OverviewSection(study: study),
-                const SizedBox(height: 50),
-                _ApproachSection(steps: study.approachSteps),
-                const SizedBox(height: 50),
-                _HighlightsSection(study: study),
-                const SizedBox(height: 50),
-                _TechStackSection(study: study),
-                const SizedBox(height: 50),
-                _ChallengesSection(challenges: study.challenges),
-                const SizedBox(height: 50),
-                _OutcomeSection(outcomes: study.outcomes, quote: study.quote),
-                const SizedBox(height: 60),
-                _NextCaseStudySection(study: nextStudy),
-                const SizedBox(height: 90),
+                SectionWrapper(
+                  color: AppColors.black,
+                  topPadding: 32,
+                  bottomPadding: 60,
+                  child: _HeroSection(study: study, accent: accent),
+                ),
+                SectionWrapper(
+                  color: AppColors.cardOnDark,
+                  topPadding: 0,
+                  bottomPadding: 60,
+                  child: _OverviewSection(study: study),
+                ),
+                SectionWrapper(
+                  color: AppColors.black,
+                  topPadding: 50,
+                  bottomPadding: 50,
+                  child: _ApproachSection(steps: study.approachSteps),
+                ),
+                SectionWrapper(
+                  color: AppColors.offWhite,
+                  topPadding: 50,
+                  bottomPadding: 50,
+                  child: _HighlightsSection(study: study),
+                ),
+                SectionWrapper(
+                  color: AppColors.offWhite,
+                  topPadding: 0,
+                  bottomPadding: 50,
+                  child: _GallerySection(images: study.gallery),
+                ),
+                SectionWrapper(
+                  color: AppColors.black,
+                  topPadding: 50,
+                  bottomPadding: 50,
+                  child: _TechStackSection(study: study),
+                ),
+                SectionWrapper(
+                  color: AppColors.cardOnDark,
+                  topPadding: 50,
+                  bottomPadding: 50,
+                  child: _ChallengesSection(challenges: study.challenges),
+                ),
+                SectionWrapper(
+                  color: AppColors.black,
+                  topPadding: 50,
+                  bottomPadding: 60,
+                  child: _OutcomeSection(outcomes: study.outcomes, quote: study.quote),
+                ),
+                SectionWrapper(
+                  color: AppColors.offWhite,
+                  topPadding: 60,
+                  bottomPadding: 90,
+                  child: _NextCaseStudySection(study: nextStudy),
+                ),
               ],
             ),
           );
@@ -234,68 +272,63 @@ class _OverviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      color: AppColors.cardOnDark,
-      padding: const EdgeInsets.symmetric(vertical: 60),
-      child: MaxWidth(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
-        child: Column(
-          children: [
-            SectionHeader(
-              title: l10n.case_details_project_overview_title,
-              subtitle: l10n.case_details_project_overview_subtitle,
-              dark: true,
-            ),
-            const SizedBox(height: 28),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final isWide = constraints.maxWidth >= 900;
-                return Wrap(
-                  spacing: 24,
-                  runSpacing: 18,
-                  children: [
-                    _OverviewTile(
-                      title: l10n.case_details_problem_title,
-                      body: study.problem,
-                      width: isWide
-                          ? (constraints.maxWidth - 24) / 2
-                          : constraints.maxWidth,
-                    ),
-                    _OverviewTile(
-                      title: l10n.case_details_goal_title,
-                      body: study.goal,
-                      width: isWide
-                          ? (constraints.maxWidth - 24) / 2
-                          : constraints.maxWidth,
-                    ),
-                    _OverviewTile(
-                      title: l10n.case_details_role_title,
-                      body: study.roleTimeline,
-                      width: isWide
-                          ? (constraints.maxWidth - 24) / 2
-                          : constraints.maxWidth,
-                    ),
-                    _OverviewTile(
-                      title: l10n.case_details_deliverables_title,
-                      body: study.deliverables,
-                      width: isWide
-                          ? (constraints.maxWidth - 24) / 2
-                          : constraints.maxWidth,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
-        ),
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          SectionHeader(
+            title: l10n.case_details_project_overview_title,
+            subtitle: l10n.case_details_project_overview_subtitle,
+            dark: true,
+          ),
+          const SizedBox(height: 28),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth >= 900;
+              return Wrap(
+                spacing: 24,
+                runSpacing: 18,
+                children: [
+                  _OverviewTile(
+                    title: l10n.case_details_problem_title,
+                    body: study.problem,
+                    width: isWide
+                        ? (constraints.maxWidth - 24) / 2
+                        : constraints.maxWidth,
+                  ),
+                  _OverviewTile(
+                    title: l10n.case_details_goal_title,
+                    body: study.goal,
+                    width: isWide
+                        ? (constraints.maxWidth - 24) / 2
+                        : constraints.maxWidth,
+                  ),
+                  _OverviewTile(
+                    title: l10n.case_details_role_title,
+                    body: study.roleTimeline,
+                    width: isWide
+                        ? (constraints.maxWidth - 24) / 2
+                        : constraints.maxWidth,
+                  ),
+                  _OverviewTile(
+                    title: l10n.case_details_deliverables_title,
+                    body: study.deliverables,
+                    width: isWide
+                        ? (constraints.maxWidth - 24) / 2
+                        : constraints.maxWidth,
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
 class _ApproachSection extends StatelessWidget {
-  final List<String> steps;
+  final List<CaseStep> steps;
 
   const _ApproachSection({required this.steps});
 
@@ -315,8 +348,8 @@ class _ApproachSection extends StatelessWidget {
           for (var i = 0; i < steps.length; i++)
             _StepTile(
               index: '${i + 1}'.padLeft(2, '0'),
-              title: steps[i],
-              body: '',
+              title: steps[i].title,
+              body: steps[i].body,
             ),
         ],
       ),
@@ -332,23 +365,18 @@ class _HighlightsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      color: AppColors.offWhite,
-      padding: const EdgeInsets.symmetric(vertical: 60),
-      child: MaxWidth(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
-        child: Column(
-          children: [
-            SectionHeader(
-              title: l10n.case_details_highlights_title,
-              subtitle: l10n.case_details_highlights_subtitle,
-              dark: false,
-            ),
-            const SizedBox(height: 24),
-            for (final item in study.highlights) _BulletItem(text: item),
-          ],
-        ),
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          SectionHeader(
+            title: l10n.case_details_highlights_title,
+            subtitle: l10n.case_details_highlights_subtitle,
+            dark: false,
+          ),
+          const SizedBox(height: 24),
+          for (final item in study.highlights) _BulletItem(text: item),
+        ],
       ),
     );
   }
@@ -415,6 +443,50 @@ class _TechStackSection extends StatelessWidget {
   }
 }
 
+class _GallerySection extends StatelessWidget {
+  final List<String> images;
+
+  const _GallerySection({required this.images});
+
+  @override
+  Widget build(BuildContext context) {
+    if (images.isEmpty) return const SizedBox.shrink();
+
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          const SectionHeader(
+            title: 'Gallery',
+            subtitle: 'Screens and details from the project.',
+            dark: false,
+          ),
+          const SizedBox(height: 18),
+          SizedBox(
+            height: 220,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => ClipRRect(
+                borderRadius: BorderRadius.circular(14),
+                child: HoverZoom(
+                  child: Image.asset(
+                    images[index],
+                    width: 320,
+                    height: 220,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              separatorBuilder: (_, __) => const SizedBox(width: 16),
+              itemCount: images.length,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _ChallengesSection extends StatelessWidget {
   final List<CaseChallenge> challenges;
 
@@ -423,24 +495,19 @@ class _ChallengesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      color: AppColors.cardOnDark,
-      padding: const EdgeInsets.symmetric(vertical: 60),
-      child: MaxWidth(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
-        child: Column(
-          children: [
-            SectionHeader(
-              title: l10n.case_details_challenges_title,
-              subtitle: l10n.case_details_challenges_subtitle,
-              dark: true,
-            ),
-            const SizedBox(height: 24),
-            for (final challenge in challenges)
-              _ChallengeTile(title: challenge.title, body: challenge.body),
-          ],
-        ),
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          SectionHeader(
+            title: l10n.case_details_challenges_title,
+            subtitle: l10n.case_details_challenges_subtitle,
+            dark: true,
+          ),
+          const SizedBox(height: 24),
+          for (final challenge in challenges)
+            _ChallengeTile(title: challenge.title, body: challenge.body),
+        ],
       ),
     );
   }
