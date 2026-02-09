@@ -79,65 +79,75 @@ class CaseStudyDetailsPage extends StatelessWidget {
           final nextStudy =
               data.caseStudies[(index + 1) % data.caseStudies.length];
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                SectionWrapper(
-                  color: AppColors.black,
-                  topPadding: 32,
-                  bottomPadding: 60,
-                  child: _HeroSection(study: study, accent: accent),
-                ),
-                SectionWrapper(
-                  color: AppColors.cardOnDark,
-                  topPadding: 0,
-                  bottomPadding: 60,
-                  child: _OverviewSection(study: study),
-                ),
-                SectionWrapper(
-                  color: AppColors.black,
-                  topPadding: 50,
-                  bottomPadding: 50,
-                  child: _ApproachSection(steps: study.approachSteps),
-                ),
-                SectionWrapper(
-                  color: AppColors.offWhite,
-                  topPadding: 50,
-                  bottomPadding: 50,
-                  child: _HighlightsSection(study: study),
-                ),
-                SectionWrapper(
-                  color: AppColors.offWhite,
-                  topPadding: 0,
-                  bottomPadding: 50,
-                  child: _GallerySection(images: study.gallery),
-                ),
-                SectionWrapper(
-                  color: AppColors.black,
-                  topPadding: 50,
-                  bottomPadding: 50,
-                  child: _TechStackSection(study: study),
-                ),
-                SectionWrapper(
-                  color: AppColors.cardOnDark,
-                  topPadding: 50,
-                  bottomPadding: 50,
-                  child: _ChallengesSection(challenges: study.challenges),
-                ),
-                SectionWrapper(
-                  color: AppColors.black,
-                  topPadding: 50,
-                  bottomPadding: 60,
-                  child: _OutcomeSection(outcomes: study.outcomes, quote: study.quote),
-                ),
-                SectionWrapper(
-                  color: AppColors.offWhite,
-                  topPadding: 60,
-                  bottomPadding: 90,
-                  child: _NextCaseStudySection(study: nextStudy),
-                ),
-              ],
+          final sections = <SectionWrapper>[
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 32,
+              bottomPadding: 60,
+              child: _HeroSection(study: study, accent: accent),
             ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 0,
+              bottomPadding: 60,
+              child: _OverviewSection(study: study),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 50,
+              bottomPadding: 50,
+              child: _ApproachSection(steps: study.approachSteps),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 50,
+              bottomPadding: 50,
+              child: _HighlightsSection(study: study),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 0,
+              bottomPadding: 50,
+              child: _GallerySection(images: study.gallery),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 50,
+              bottomPadding: 50,
+              child: _TechStackSection(study: study),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 50,
+              bottomPadding: 50,
+              child: _ChallengesSection(challenges: study.challenges),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 50,
+              bottomPadding: 60,
+              child: _OutcomeSection(outcomes: study.outcomes, quote: study.quote),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 60,
+              bottomPadding: 90,
+              child: _NextCaseStudySection(study: nextStudy),
+            ),
+          ];
+
+          final themedSections = [
+            for (var i = 0; i < sections.length; i++)
+              SectionWrapper(
+                color: i.isEven ? AppColors.black : AppColors.offWhite,
+                topPadding: sections[i].topPadding,
+                bottomPadding: sections[i].bottomPadding,
+                child: sections[i].child,
+              ),
+          ];
+
+          return SingleChildScrollView(
+            child: Column(children: themedSections),
           );
         },
       ),
