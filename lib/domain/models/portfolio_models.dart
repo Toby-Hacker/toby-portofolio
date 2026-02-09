@@ -23,10 +23,19 @@ class CaseStudy extends Equatable {
   final String tag;
   final String title;
   final String summary;
+  final String problem;
+  final String goal;
+  final String roleTimeline;
+  final String deliverables;
   final String imageUrl;
+  final List<String> gallery;
   final String accent; // amber | blue | teal
+  final List<String> approachSteps;
   final List<String> highlights;
+  final List<CaseChallenge> challenges;
   final List<String> stack;
+  final List<CaseMetric> outcomes;
+  final String? quote;
   final String? liveUrl;
 
   const CaseStudy({
@@ -34,10 +43,19 @@ class CaseStudy extends Equatable {
     required this.tag,
     required this.title,
     required this.summary,
+    required this.problem,
+    required this.goal,
+    required this.roleTimeline,
+    required this.deliverables,
     required this.imageUrl,
+    required this.gallery,
     required this.accent,
+    required this.approachSteps,
     required this.highlights,
+    required this.challenges,
     required this.stack,
+    required this.outcomes,
+    this.quote,
     this.liveUrl,
   });
 
@@ -47,12 +65,41 @@ class CaseStudy extends Equatable {
         tag,
         title,
         summary,
+        problem,
+        goal,
+        roleTimeline,
+        deliverables,
         imageUrl,
+        gallery,
         accent,
+        approachSteps,
         highlights,
+        challenges,
         stack,
+        outcomes,
+        quote,
         liveUrl,
       ];
+}
+
+class CaseChallenge extends Equatable {
+  final String title;
+  final String body;
+
+  const CaseChallenge({required this.title, required this.body});
+
+  @override
+  List<Object?> get props => [title, body];
+}
+
+class CaseMetric extends Equatable {
+  final String label;
+  final String value;
+
+  const CaseMetric({required this.label, required this.value});
+
+  @override
+  List<Object?> get props => [label, value];
 }
 
 class RecentWork extends Equatable {
