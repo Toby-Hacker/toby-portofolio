@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -386,12 +387,23 @@ class _TechStackSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: AppColors.borderOnDark),
                     ),
-                    child: Text(
-                      item,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.textOnDark,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (item.svgStr.trim().isNotEmpty)
+                          SvgPicture.string(item.svgStr, width: 18, height: 18)
+                        else
+                          const Icon(Icons.bolt, size: 16, color: Colors.white),
+                        const SizedBox(width: 8),
+                        Text(
+                          item.label,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: AppColors.textOnDark,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                      ],
                     ),
                   ),
                 )

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import '../../core/constants/stack_icon.dart';
 import '../../domain/models/portfolio_models.dart';
 import '../../domain/repositories/portfolio_repository.dart';
 
@@ -96,7 +97,12 @@ I care about doing things properly — clean architecture, clear communication, 
             body: 'Optimized API responses and reduced payload size by 35%.',
           ),
         ],
-        stack: ['Flutter', 'Render', 'Vercel', 'AWS S3'],
+        stack: [
+          StackIcon.flutter,
+          StackIcon.nodejs,
+          StackIcon.aws,
+          StackIcon.postgres,
+        ],
         outcomes: [
           CaseMetric(label: 'Users', value: '120k+'),
           CaseMetric(label: 'Uptime', value: '99.9%'),
@@ -143,7 +149,11 @@ I care about doing things properly — clean architecture, clear communication, 
             body: 'Lazy-loaded non-critical modules and optimized assets.',
           ),
         ],
-        stack: ['Flutter', 'Firebase', 'Bloc', 'GoRouter'],
+        stack: [
+          StackIcon.flutter,
+          StackIcon.firebase,
+          StackIcon.dart,
+        ],
         outcomes: [
           CaseMetric(label: 'Conversion', value: '+18%'),
           CaseMetric(label: 'Crash rate', value: '-45%'),
@@ -185,7 +195,12 @@ I care about doing things properly — clean architecture, clear communication, 
             body: 'Implemented server-side pagination and caching.',
           ),
         ],
-        stack: ['Flutter', 'Node.js', 'TypeScript', 'PostgreSQL', 'Stripe'],
+        stack: [
+          StackIcon.flutter,
+          StackIcon.nodejs,
+          StackIcon.postgres,
+          StackIcon.stripe,
+        ],
         outcomes: [
           CaseMetric(label: 'Page speed', value: '92+'),
           CaseMetric(label: 'Orders', value: '+25%'),

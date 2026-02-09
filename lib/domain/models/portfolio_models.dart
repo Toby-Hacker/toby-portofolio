@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../core/constants/stack_icon.dart';
+
 class SocialLink extends Equatable {
   final String label;
   final String url;
@@ -33,7 +35,7 @@ class CaseStudy extends Equatable {
   final List<String> approachSteps;
   final List<String> highlights;
   final List<CaseChallenge> challenges;
-  final List<String> stack;
+  final List<StackIcon> stack;
   final List<CaseMetric> outcomes;
   final String? quote;
   final String? liveUrl;
