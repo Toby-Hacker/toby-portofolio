@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -106,6 +107,7 @@ class _HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final canLaunch = study.liveUrl != null && study.liveUrl!.trim().isNotEmpty;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: LayoutBuilder(
@@ -157,7 +159,16 @@ class _HeroSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 22),
-              GlowButton(label: l10n.case_details_view_live, onPressed: () {}),
+              GlowButton(
+                label: l10n.case_details_view_live,
+                color: canLaunch ? AppColors.primaryGreen : const Color(0xFF4A4A4A),
+                onPressed: canLaunch
+                    ? () {
+                        final uri = Uri.parse(study.liveUrl!);
+                        launchUrl(uri, mode: LaunchMode.externalApplication);
+                      }
+                    : null,
+              ),
             ],
           );
 

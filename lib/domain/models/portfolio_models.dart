@@ -27,6 +27,7 @@ class CaseStudy extends Equatable {
   final String accent; // amber | blue | teal
   final List<String> highlights;
   final List<String> stack;
+  final String? liveUrl;
 
   const CaseStudy({
     required this.id,
@@ -37,10 +38,21 @@ class CaseStudy extends Equatable {
     required this.accent,
     required this.highlights,
     required this.stack,
+    this.liveUrl,
   });
 
   @override
-  List<Object?> get props => [id, tag, title, summary, imageUrl, accent, highlights, stack];
+  List<Object?> get props => [
+        id,
+        tag,
+        title,
+        summary,
+        imageUrl,
+        accent,
+        highlights,
+        stack,
+        liveUrl,
+      ];
 }
 
 class RecentWork extends Equatable {

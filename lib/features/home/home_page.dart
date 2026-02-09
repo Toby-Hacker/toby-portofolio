@@ -262,9 +262,9 @@ class HeroSection extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              content,
-              const SizedBox(height: 32),
               Align(alignment: Alignment.center, child: image),
+              const SizedBox(height: 32),
+              content,
             ],
           );
         },

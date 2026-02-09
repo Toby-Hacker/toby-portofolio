@@ -37,7 +37,7 @@ class MockPortfolioRepository implements PortfolioRepository {
           '''I’m Toby, a developer who builds mobile and web applications from idea to production.
 
 I care about doing things properly — clean architecture, clear communication, and products that don’t fall apart after launch.''',
-      heroImageUrl: 'assets/images/hero.png',
+      heroImageUrl: 'assets/images/profile_pic.png',
       workedWith: [
         PartnerLogo(name: 'Flutter', assetPath: 'assets/logos/flutter.png'),
         PartnerLogo(name: 'Firebase', assetPath: 'assets/logos/firebase.png'),
@@ -73,6 +73,8 @@ I care about doing things properly — clean architecture, clear communication, 
           'Analytics dashboards & exports',
         ],
         stack: ['Flutter', 'Render', 'Vercel', 'AWS S3'],
+        liveUrl:
+            'https://play.google.com/store/apps/details?id=com.explotel.app',
       ),
       CaseStudy(
         id: 'motiboutik-mobile',
@@ -88,6 +90,7 @@ I care about doing things properly — clean architecture, clear communication, 
           'Admin tooling for content lifecycle',
         ],
         stack: ['Flutter', 'Firebase', 'Bloc', 'GoRouter'],
+        liveUrl: null,
       ),
       CaseStudy(
         id: 'motiboutik-customer-web',
@@ -103,6 +106,7 @@ I care about doing things properly — clean architecture, clear communication, 
           'Performance-focused API design',
         ],
         stack: ['Flutter', 'Node.js', 'TypeScript', 'PostgreSQL', 'Stripe'],
+        liveUrl: null,
       ),
     ];
 
