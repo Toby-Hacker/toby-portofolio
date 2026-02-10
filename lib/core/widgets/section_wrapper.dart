@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SectionWrapper extends StatelessWidget {
   final Widget child;
@@ -16,11 +17,25 @@ class SectionWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: color,
-      padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
-      child: child,
+    final isDark = _isDark(color);
+    return BlocProvider(
+      create: (_) => SectionThemeCubit(isDark),
+      child: Container(
+        width: double.infinity,
+        color: color,
+        padding: EdgeInsets.only(top: topPadding, bottom: bottomPadding),
+        child: child,
+      ),
     );
   }
+
+  bool _isDark(Color color) {
+    return color.computeLuminance() < 0.5;
+  }
+}
+
+class SectionThemeCubit extends Cubit<bool> {
+  SectionThemeCubit(bool isDark) : super(isDark);
+
+  bool get isDark => state;
 }
