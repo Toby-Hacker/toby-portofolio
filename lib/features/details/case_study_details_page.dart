@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:ui';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
@@ -114,7 +115,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
             ),
             SectionWrapper(
               color: AppColors.black,
-              topPadding: 0,
+              topPadding: 50,
               bottomPadding: 50,
               child: _GallerySection(images: study.gallery),
             ),
@@ -508,7 +509,7 @@ class _GallerySection extends StatelessWidget {
     final isDark = context.watch<SectionThemeCubit>().isDark;
 
     return MaxWidth(
-      padding: const EdgeInsets.symmetric(horizontal: 28),
+      maxWidth: double.infinity,
       child: Column(
         children: [
           SectionHeader(
@@ -518,7 +519,7 @@ class _GallerySection extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           SizedBox(
-            height: 220,
+            height: 330,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => ClipRRect(
@@ -532,7 +533,7 @@ class _GallerySection extends StatelessWidget {
                     ),
                     child: Container(
                       width: 320,
-                      height: 220,
+                      height: 330,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(images[index]),
@@ -546,7 +547,7 @@ class _GallerySection extends StatelessWidget {
                         child: Image.asset(
                           images[index],
                           width: 320,
-                          height: 220,
+                          height: 330,
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -623,6 +624,20 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
             height: height,
             child: Stack(
               children: [
+                Positioned.fill(
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+                    child: Image.asset(
+                      widget.images[_index],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.35),
+                  ),
+                ),
                 PageView.builder(
                   controller: _controller,
                   itemCount: widget.images.length,
