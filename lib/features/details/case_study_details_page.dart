@@ -595,6 +595,8 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
     initialPage: widget.initialIndex,
   );
   int _index = 0;
+  static const _slideDuration = Duration(milliseconds: 420);
+  static const _slideCurve = Curves.easeInOutCubic;
 
   @override
   void initState() {
@@ -625,8 +627,27 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
                   controller: _controller,
                   itemCount: widget.images.length,
                   onPageChanged: (value) => setState(() => _index = value),
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.all(20),
+                  itemBuilder: (context, index) => AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      final page = _controller.hasClients
+                          ? (_controller.page ?? _index.toDouble())
+                          : _index.toDouble();
+                      final delta = (page - index).abs().clamp(0.0, 1.0);
+                      final scale = 1.0 - (delta * 0.06);
+                      final opacity = 1.0 - (delta * 0.25);
+
+                      return Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Opacity(
+                          opacity: opacity,
+                          child: Transform.scale(
+                            scale: scale,
+                            child: child,
+                          ),
+                        ),
+                      );
+                    },
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(14),
                       child: Image.asset(
@@ -658,8 +679,8 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
                         );
                         _controller.animateToPage(
                           next,
-                          duration: const Duration(milliseconds: 240),
-                          curve: Curves.easeOutCubic,
+                          duration: _slideDuration,
+                          curve: _slideCurve,
                         );
                       },
                     ),
@@ -678,8 +699,8 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
                         );
                         _controller.animateToPage(
                           next,
-                          duration: const Duration(milliseconds: 240),
-                          curve: Curves.easeOutCubic,
+                          duration: _slideDuration,
+                          curve: _slideCurve,
                         );
                       },
                     ),
