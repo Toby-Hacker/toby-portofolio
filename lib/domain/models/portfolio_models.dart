@@ -11,15 +11,6 @@ class SocialLink extends Equatable {
   List<Object?> get props => [label, url];
 }
 
-class PartnerLogo extends Equatable {
-  final String name;
-  final String assetPath;
-  const PartnerLogo({required this.name, required this.assetPath});
-
-  @override
-  List<Object?> get props => [name, assetPath];
-}
-
 class CaseStudy extends Equatable {
   final String id;
   final String tag;
@@ -154,7 +145,7 @@ class PortfolioProfile extends Equatable {
   final String name;
   final String intro;
   final String heroImageUrl;
-  final List<PartnerLogo> workedWith;
+  final List<StackIcon> workedWith;
   final List<SocialLink> socials;
 
   const PortfolioProfile({

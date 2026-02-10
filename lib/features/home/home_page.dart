@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../core/localization/locale_controller.dart';
+import '../../core/constants/stack_icon.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/glow_button.dart';
 import '../../core/widgets/hover_zoom.dart';
@@ -617,7 +619,7 @@ class HeroImage extends StatelessWidget {
 }
 
 class PartnerLogoCard extends StatelessWidget {
-  final PartnerLogo logo;
+  final StackIcon logo;
 
   const PartnerLogoCard({super.key, required this.logo});
 
@@ -632,12 +634,12 @@ class PartnerLogoCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderOnDark),
       ),
-      child: Image.asset(
-        logo.assetPath,
-        fit: BoxFit.contain,
-        filterQuality: FilterQuality.medium,
-        errorBuilder: (context, error, stackTrace) => _LogoFallback(name: logo.name),
-      ),
+      child: logo.svgStr.trim().isNotEmpty
+          ? SvgPicture.string(
+              logo.svgStr,
+              fit: BoxFit.contain,
+            )
+          : _LogoFallback(name: logo.label),
     );
   }
 }

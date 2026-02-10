@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
@@ -617,114 +618,114 @@ class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
       insetPadding: const EdgeInsets.all(24),
       backgroundColor: const Color(0xFF0F0F0F),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final height = constraints.maxHeight * 0.82;
-          return SizedBox(
-            height: height,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-                    child: Image.asset(
-                      widget.images[_index],
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black.withOpacity(0.35),
-                  ),
-                ),
-                PageView.builder(
-                  controller: _controller,
-                  itemCount: widget.images.length,
-                  onPageChanged: (value) => setState(() => _index = value),
-                  itemBuilder: (context, index) => AnimatedBuilder(
-                    animation: _controller,
-                    builder: (context, child) {
-                      final page = _controller.hasClients
-                          ? (_controller.page ?? _index.toDouble())
-                          : _index.toDouble();
-                      final delta = (page - index).abs().clamp(0.0, 1.0);
-                      final scale = 1.0 - (delta * 0.06);
-                      final opacity = 1.0 - (delta * 0.25);
-
-                      return Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Opacity(
-                          opacity: opacity,
-                          child: Transform.scale(
-                            scale: scale,
-                            child: child,
-                          ),
-                        ),
-                      );
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(14),
+      child: Focus(
+        autofocus: true,
+        onKeyEvent: (node, event) {
+          if (event is! KeyDownEvent) return KeyEventResult.ignored;
+          if (event.logicalKey == LogicalKeyboardKey.arrowLeft) {
+            _goTo(_index - 1);
+            return KeyEventResult.handled;
+          }
+          if (event.logicalKey == LogicalKeyboardKey.arrowRight) {
+            _goTo(_index + 1);
+            return KeyEventResult.handled;
+          }
+          return KeyEventResult.ignored;
+        },
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final height = constraints.maxHeight * 0.82;
+            return SizedBox(
+              height: height,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ImageFiltered(
+                      imageFilter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
                       child: Image.asset(
-                        widget.images[index],
-                        fit: BoxFit.contain,
+                        widget.images[_index],
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: 12,
-                  right: 12,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, color: Colors.white),
+                  Positioned.fill(
+                    child: Container(color: Colors.black.withOpacity(0.35)),
                   ),
-                ),
-                if (widget.images.length > 1)
-                  Positioned(
-                    left: 12,
-                    top: 0,
-                    bottom: 0,
-                    child: _CarouselNavButton(
-                      icon: Icons.chevron_left,
-                      onPressed: () {
-                        final next = (_index - 1).clamp(
-                          0,
-                          widget.images.length - 1,
-                        );
-                        _controller.animateToPage(
-                          next,
-                          duration: _slideDuration,
-                          curve: _slideCurve,
+                  PageView.builder(
+                    controller: _controller,
+                    itemCount: widget.images.length,
+                    onPageChanged: (value) => setState(() => _index = value),
+                    itemBuilder: (context, index) => AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        final page = _controller.hasClients
+                            ? (_controller.page ?? _index.toDouble())
+                            : _index.toDouble();
+                        final delta = (page - index).abs().clamp(0.0, 1.0);
+                        final scale = 1.0 - (delta * 0.06);
+                        final opacity = 1.0 - (delta * 0.25);
+
+                        return Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Opacity(
+                            opacity: opacity,
+                            child: Transform.scale(scale: scale, child: child),
+                          ),
                         );
                       },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Image.asset(
+                          widget.images[index],
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                   ),
-                if (widget.images.length > 1)
                   Positioned(
+                    top: 12,
                     right: 12,
-                    top: 0,
-                    bottom: 0,
-                    child: _CarouselNavButton(
-                      icon: Icons.chevron_right,
-                      onPressed: () {
-                        final next = (_index + 1).clamp(
-                          0,
-                          widget.images.length - 1,
-                        );
-                        _controller.animateToPage(
-                          next,
-                          duration: _slideDuration,
-                          curve: _slideCurve,
-                        );
-                      },
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.close, color: Colors.white),
                     ),
                   ),
-              ],
-            ),
-          );
-        },
+                  if (widget.images.length > 1)
+                    Positioned(
+                      left: 12,
+                      top: 0,
+                      bottom: 0,
+                      child: _CarouselNavButton(
+                        icon: Icons.chevron_left,
+                        onPressed: () => _goTo(_index - 1),
+                      ),
+                    ),
+                  if (widget.images.length > 1)
+                    Positioned(
+                      right: 12,
+                      top: 0,
+                      bottom: 0,
+                      child: _CarouselNavButton(
+                        icon: Icons.chevron_right,
+                        onPressed: () => _goTo(_index + 1),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  void _goTo(int index) {
+    final next = index.clamp(0, widget.images.length - 1);
+    if (next == _index) return;
+    _controller.animateToPage(
+      next,
+      duration: _slideDuration,
+      curve: _slideCurve,
     );
   }
 }
@@ -936,7 +937,7 @@ class _MetricCard extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: dark ? AppColors.textOnDark : const Color(0xFF111111),
+              color: dark ? AppColors.accentBlue : const Color(0xFF111111),
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -985,7 +986,7 @@ class _OverviewTile extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: dark ? AppColors.textOnDark : const Color(0xFF111111),
+                color: dark ? AppColors.accentBlue : const Color(0xFF111111),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -1046,9 +1047,7 @@ class _StepTile extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: dark
-                        ? AppColors.textOnDark
-                        : const Color(0xFF111111),
+                    color: AppColors.accentBlue,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
