@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -171,6 +173,11 @@ class _HeroSection extends StatelessWidget {
     final heroMetrics = study.outcomes.isNotEmpty
         ? study.outcomes.take(3).toList()
         : const <CaseMetric>[];
+    final galleryImages = <String>[
+      study.imageUrl,
+      ...study.gallery,
+    ].toSet().toList();
+
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: LayoutBuilder(
@@ -252,11 +259,18 @@ class _HeroSection extends StatelessWidget {
           final image = ClipRRect(
             borderRadius: BorderRadius.circular(18),
             child: HoverZoom(
-              child: Image.asset(
-                study.imageUrl,
-                width: 520,
-                height: 320,
-                fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: () => _showGalleryCarousel(
+                  context,
+                  images: galleryImages,
+                  initialIndex: 0,
+                ),
+                child: Image.asset(
+                  study.imageUrl,
+                  width: 520,
+                  height: 320,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );
@@ -510,11 +524,33 @@ class _GallerySection extends StatelessWidget {
               itemBuilder: (context, index) => ClipRRect(
                 borderRadius: BorderRadius.circular(14),
                 child: HoverZoom(
-                  child: Image.asset(
-                    images[index],
-                    width: 320,
-                    height: 220,
-                    fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () => _showGalleryCarousel(
+                      context,
+                      images: images,
+                      initialIndex: index,
+                    ),
+                    child: Container(
+                      width: 320,
+                      height: 220,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(images[index]),
+                          fit: BoxFit.cover,
+                          onError: (context, error) {},
+                        ),
+                      ),
+
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+                        child: Image.asset(
+                          images[index],
+                          width: 320,
+                          height: 220,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -523,6 +559,160 @@ class _GallerySection extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+void _showGalleryCarousel(
+  BuildContext context, {
+  required List<String> images,
+  int initialIndex = 0,
+}) {
+  showDialog<void>(
+    context: context,
+    barrierColor: Colors.black87,
+    builder: (context) =>
+        _GalleryCarouselDialog(images: images, initialIndex: initialIndex),
+  );
+}
+
+class _GalleryCarouselDialog extends StatefulWidget {
+  final List<String> images;
+  final int initialIndex;
+
+  const _GalleryCarouselDialog({
+    required this.images,
+    required this.initialIndex,
+  });
+
+  @override
+  State<_GalleryCarouselDialog> createState() => _GalleryCarouselDialogState();
+}
+
+class _GalleryCarouselDialogState extends State<_GalleryCarouselDialog> {
+  late final PageController _controller = PageController(
+    initialPage: widget.initialIndex,
+  );
+  int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _index = widget.initialIndex;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: const EdgeInsets.all(24),
+      backgroundColor: const Color(0xFF0F0F0F),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final height = constraints.maxHeight * 0.82;
+          return SizedBox(
+            height: height,
+            child: Stack(
+              children: [
+                PageView.builder(
+                  controller: _controller,
+                  itemCount: widget.images.length,
+                  onPageChanged: (value) => setState(() => _index = value),
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(14),
+                      child: Image.asset(
+                        widget.images[index],
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close, color: Colors.white),
+                  ),
+                ),
+                if (widget.images.length > 1)
+                  Positioned(
+                    left: 12,
+                    top: 0,
+                    bottom: 0,
+                    child: _CarouselNavButton(
+                      icon: Icons.chevron_left,
+                      onPressed: () {
+                        final next = (_index - 1).clamp(
+                          0,
+                          widget.images.length - 1,
+                        );
+                        _controller.animateToPage(
+                          next,
+                          duration: const Duration(milliseconds: 240),
+                          curve: Curves.easeOutCubic,
+                        );
+                      },
+                    ),
+                  ),
+                if (widget.images.length > 1)
+                  Positioned(
+                    right: 12,
+                    top: 0,
+                    bottom: 0,
+                    child: _CarouselNavButton(
+                      icon: Icons.chevron_right,
+                      onPressed: () {
+                        final next = (_index + 1).clamp(
+                          0,
+                          widget.images.length - 1,
+                        );
+                        _controller.animateToPage(
+                          next,
+                          duration: const Duration(milliseconds: 240),
+                          curve: Curves.easeOutCubic,
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _CarouselNavButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onPressed;
+
+  const _CarouselNavButton({required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1A1A),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFF2A2A2A)),
+        ),
+        child: IconButton(
+          onPressed: onPressed,
+          icon: Icon(icon, color: Colors.white),
+        ),
       ),
     );
   }

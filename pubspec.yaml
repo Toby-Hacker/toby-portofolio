@@ -75,6 +75,7 @@ flutter:
     - assets/images/
     - assets/images/projects_shots/
     - assets/logos/
+    - assets/images/projects_shots/explotel-mobile-app/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
