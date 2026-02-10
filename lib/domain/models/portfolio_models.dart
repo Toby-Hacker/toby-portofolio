@@ -63,25 +63,25 @@ class CaseStudy extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        tag,
-        title,
-        summary,
-        problem,
-        goal,
-        roleTimeline,
-        deliverables,
-        imageUrl,
-        gallery,
-        accent,
-        approachSteps,
-        highlights,
-        challenges,
-        stack,
-        outcomes,
-        quote,
-        liveUrl,
-      ];
+    id,
+    tag,
+    title,
+    summary,
+    problem,
+    goal,
+    roleTimeline,
+    deliverables,
+    imageUrl,
+    gallery,
+    accent,
+    approachSteps,
+    highlights,
+    challenges,
+    stack,
+    outcomes,
+    quote,
+    liveUrl,
+  ];
 }
 
 class CaseChallenge extends Equatable {

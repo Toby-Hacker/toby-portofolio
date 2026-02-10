@@ -88,7 +88,13 @@ class CaseStudyDetailsPage extends StatelessWidget {
             ),
             SectionWrapper(
               color: AppColors.black,
-              topPadding: 0,
+              topPadding: 50,
+              bottomPadding: 50,
+              child: _TechStackSection(study: study),
+            ),
+            SectionWrapper(
+              color: AppColors.black,
+              topPadding: 60,
               bottomPadding: 60,
               child: _OverviewSection(study: study),
             ),
@@ -110,12 +116,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
               bottomPadding: 50,
               child: _GallerySection(images: study.gallery),
             ),
-            SectionWrapper(
-              color: AppColors.black,
-              topPadding: 50,
-              bottomPadding: 50,
-              child: _TechStackSection(study: study),
-            ),
+
             SectionWrapper(
               color: AppColors.black,
               topPadding: 50,
@@ -126,7 +127,10 @@ class CaseStudyDetailsPage extends StatelessWidget {
               color: AppColors.black,
               topPadding: 50,
               bottomPadding: 60,
-              child: _OutcomeSection(outcomes: study.outcomes, quote: study.quote),
+              child: _OutcomeSection(
+                outcomes: study.outcomes,
+                quote: study.quote,
+              ),
             ),
             SectionWrapper(
               color: AppColors.black,
@@ -146,9 +150,7 @@ class CaseStudyDetailsPage extends StatelessWidget {
               ),
           ];
 
-          return SingleChildScrollView(
-            child: Column(children: themedSections),
-          );
+          return SingleChildScrollView(child: Column(children: themedSections));
         },
       ),
     );
@@ -164,6 +166,7 @@ class _HeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     final canLaunch = study.liveUrl != null && study.liveUrl!.trim().isNotEmpty;
     final heroMetrics = study.outcomes.isNotEmpty
         ? study.outcomes.take(3).toList()
@@ -199,7 +202,9 @@ class _HeroSection extends StatelessWidget {
               Text(
                 study.title,
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  color: AppColors.textOnDark,
+                  color: isDark
+                      ? AppColors.textOnDark
+                      : const Color(0xFF111111),
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -207,7 +212,9 @@ class _HeroSection extends StatelessWidget {
               Text(
                 study.summary,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.mutedOnDark,
+                  color: isDark
+                      ? AppColors.mutedOnDark
+                      : const Color(0xFF4B4B4B),
                   height: 1.7,
                 ),
               ),
@@ -221,6 +228,7 @@ class _HeroSection extends StatelessWidget {
                         (metric) => _MetricCard(
                           label: metric.label,
                           value: metric.value,
+                          dark: isDark,
                         ),
                       )
                       .toList(),
@@ -282,6 +290,7 @@ class _OverviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -289,7 +298,7 @@ class _OverviewSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_project_overview_title,
             subtitle: l10n.case_details_project_overview_subtitle,
-            dark: true,
+            dark: isDark,
           ),
           const SizedBox(height: 28),
           LayoutBuilder(
@@ -302,6 +311,7 @@ class _OverviewSection extends StatelessWidget {
                   _OverviewTile(
                     title: l10n.case_details_problem_title,
                     body: study.problem,
+                    dark: isDark,
                     width: isWide
                         ? (constraints.maxWidth - 24) / 2
                         : constraints.maxWidth,
@@ -309,6 +319,7 @@ class _OverviewSection extends StatelessWidget {
                   _OverviewTile(
                     title: l10n.case_details_goal_title,
                     body: study.goal,
+                    dark: isDark,
                     width: isWide
                         ? (constraints.maxWidth - 24) / 2
                         : constraints.maxWidth,
@@ -316,6 +327,7 @@ class _OverviewSection extends StatelessWidget {
                   _OverviewTile(
                     title: l10n.case_details_role_title,
                     body: study.roleTimeline,
+                    dark: isDark,
                     width: isWide
                         ? (constraints.maxWidth - 24) / 2
                         : constraints.maxWidth,
@@ -323,6 +335,7 @@ class _OverviewSection extends StatelessWidget {
                   _OverviewTile(
                     title: l10n.case_details_deliverables_title,
                     body: study.deliverables,
+                    dark: isDark,
                     width: isWide
                         ? (constraints.maxWidth - 24) / 2
                         : constraints.maxWidth,
@@ -345,6 +358,7 @@ class _ApproachSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -352,7 +366,7 @@ class _ApproachSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_approach_title,
             subtitle: l10n.case_details_approach_subtitle,
-            dark: true,
+            dark: isDark,
           ),
           const SizedBox(height: 24),
           for (var i = 0; i < steps.length; i++)
@@ -360,6 +374,7 @@ class _ApproachSection extends StatelessWidget {
               index: '${i + 1}'.padLeft(2, '0'),
               title: steps[i].title,
               body: steps[i].body,
+              dark: isDark,
             ),
         ],
       ),
@@ -375,6 +390,7 @@ class _HighlightsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -382,10 +398,11 @@ class _HighlightsSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_highlights_title,
             subtitle: l10n.case_details_highlights_subtitle,
-            dark: false,
+            dark: isDark,
           ),
           const SizedBox(height: 24),
-          for (final item in study.highlights) _BulletItem(text: item),
+          for (final item in study.highlights)
+            _BulletItem(text: item, dark: isDark),
         ],
       ),
     );
@@ -400,6 +417,7 @@ class _TechStackSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -407,7 +425,7 @@ class _TechStackSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_tech_stack_title,
             subtitle: l10n.case_details_tech_stack_subtitle,
-            dark: true,
+            dark: isDark,
           ),
           const SizedBox(height: 18),
           Wrap(
@@ -421,9 +439,13 @@ class _TechStackSection extends StatelessWidget {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.cardOnDark,
+                      color: isDark ? AppColors.cardOnDark : Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColors.borderOnDark),
+                      border: Border.all(
+                        color: isDark
+                            ? AppColors.borderOnDark
+                            : const Color(0xFFE2E2E2),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -431,13 +453,21 @@ class _TechStackSection extends StatelessWidget {
                         if (item.svgStr.trim().isNotEmpty)
                           SvgPicture.string(item.svgStr, width: 18, height: 18)
                         else
-                          const Icon(Icons.bolt, size: 16, color: Colors.white),
+                          Icon(
+                            Icons.bolt,
+                            size: 16,
+                            color: isDark
+                                ? Colors.white
+                                : const Color(0xFF1A1A1A),
+                          ),
                         const SizedBox(width: 8),
                         Text(
                           item.label,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                                color: AppColors.textOnDark,
+                                color: isDark
+                                    ? AppColors.textOnDark
+                                    : const Color(0xFF1A1A1A),
                                 fontWeight: FontWeight.w600,
                               ),
                         ),
@@ -461,15 +491,16 @@ class _GallerySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (images.isEmpty) return const SizedBox.shrink();
+    final isDark = context.watch<SectionThemeCubit>().isDark;
 
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
         children: [
-          const SectionHeader(
+          SectionHeader(
             title: 'Gallery',
             subtitle: 'Screens and details from the project.',
-            dark: false,
+            dark: isDark,
           ),
           const SizedBox(height: 18),
           SizedBox(
@@ -505,6 +536,7 @@ class _ChallengesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -512,11 +544,15 @@ class _ChallengesSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_challenges_title,
             subtitle: l10n.case_details_challenges_subtitle,
-            dark: true,
+            dark: isDark,
           ),
           const SizedBox(height: 24),
           for (final challenge in challenges)
-            _ChallengeTile(title: challenge.title, body: challenge.body),
+            _ChallengeTile(
+              title: challenge.title,
+              body: challenge.body,
+              dark: isDark,
+            ),
         ],
       ),
     );
@@ -532,6 +568,7 @@ class _OutcomeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isDark = context.watch<SectionThemeCubit>().isDark;
     return MaxWidth(
       padding: const EdgeInsets.symmetric(horizontal: 28),
       child: Column(
@@ -539,16 +576,20 @@ class _OutcomeSection extends StatelessWidget {
           SectionHeader(
             title: l10n.case_details_outcome_title,
             subtitle: l10n.case_details_outcome_subtitle,
-            dark: true,
+            dark: isDark,
           ),
           const SizedBox(height: 20),
           Wrap(
             spacing: 18,
             runSpacing: 18,
+            alignment: WrapAlignment.center,
             children: outcomes
                 .map(
-                  (metric) =>
-                      _MetricCard(label: metric.label, value: metric.value),
+                  (metric) => _MetricCard(
+                    label: metric.label,
+                    value: metric.value,
+                    dark: isDark,
+                  ),
                 )
                 .toList(),
           ),
@@ -557,14 +598,20 @@ class _OutcomeSection extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
               decoration: BoxDecoration(
-                color: AppColors.cardOnDark,
+                color: isDark ? AppColors.cardOnDark : Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.borderOnDark),
+                border: Border.all(
+                  color: isDark
+                      ? AppColors.borderOnDark
+                      : const Color(0xFFE2E2E2),
+                ),
               ),
               child: Text(
                 quote!,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.mutedOnDark,
+                  color: isDark
+                      ? AppColors.mutedOnDark
+                      : const Color(0xFF4B4B4B),
                   height: 1.6,
                 ),
                 textAlign: TextAlign.center,
@@ -585,55 +632,51 @@ class _NextCaseStudySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Container(
-      width: double.infinity,
-      color: AppColors.offWhite,
-      padding: const EdgeInsets.symmetric(vertical: 60),
-      child: MaxWidth(
-        padding: const EdgeInsets.symmetric(horizontal: 28),
-        child: Column(
-          children: [
-            SectionHeader(
-              title: l10n.case_details_next_title,
-              subtitle: l10n.case_details_next_subtitle,
-              dark: false,
-            ),
-            const SizedBox(height: 24),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: HoverZoom(
-                child: Image.asset(
-                  study.imageUrl,
-                  height: 300,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
+    final isDark = context.watch<SectionThemeCubit>().isDark;
+    return MaxWidth(
+      padding: const EdgeInsets.symmetric(horizontal: 28),
+      child: Column(
+        children: [
+          SectionHeader(
+            title: l10n.case_details_next_title,
+            subtitle: l10n.case_details_next_subtitle,
+            dark: isDark,
+          ),
+          const SizedBox(height: 24),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: HoverZoom(
+              child: Image.asset(
+                study.imageUrl,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 18),
-            Text(
-              study.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: const Color(0xFF111111),
-                fontWeight: FontWeight.w800,
-              ),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            study.title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: isDark ? AppColors.textOnDark : const Color(0xFF111111),
+              fontWeight: FontWeight.w800,
             ),
-            const SizedBox(height: 10),
-            Text(
-              study.summary,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF4B4B4B),
-                height: 1.6,
-              ),
-              textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            study.summary,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: isDark ? AppColors.mutedOnDark : const Color(0xFF4B4B4B),
+              height: 1.6,
             ),
-            const SizedBox(height: 18),
-            GlowButton(
-              label: l10n.case_study_view,
-              onPressed: () => context.go('/case-study/${study.id}'),
-            ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 18),
+          GlowButton(
+            label: l10n.case_study_view,
+            onPressed: () => context.go('/case-study/${study.id}'),
+          ),
+        ],
       ),
     );
   }
@@ -642,17 +685,24 @@ class _NextCaseStudySection extends StatelessWidget {
 class _MetricCard extends StatelessWidget {
   final String label;
   final String value;
+  final bool dark;
 
-  const _MetricCard({required this.label, required this.value});
+  const _MetricCard({
+    required this.label,
+    required this.value,
+    required this.dark,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: AppColors.cardOnDark,
+        color: dark ? AppColors.cardOnDark : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderOnDark),
+        border: Border.all(
+          color: dark ? AppColors.borderOnDark : const Color(0xFFE2E2E2),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -660,16 +710,16 @@ class _MetricCard extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.textOnDark,
+              color: dark ? AppColors.textOnDark : const Color(0xFF111111),
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: AppColors.mutedOnDark),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: dark ? AppColors.mutedOnDark : const Color(0xFF4B4B4B),
+            ),
           ),
         ],
       ),
@@ -681,11 +731,13 @@ class _OverviewTile extends StatelessWidget {
   final String title;
   final String body;
   final double width;
+  final bool dark;
 
   const _OverviewTile({
     required this.title,
     required this.body,
     required this.width,
+    required this.dark,
   });
 
   @override
@@ -695,9 +747,11 @@ class _OverviewTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
         decoration: BoxDecoration(
-          color: AppColors.black,
+          color: dark ? AppColors.black : Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.borderOnDark),
+          border: Border.all(
+            color: dark ? AppColors.borderOnDark : const Color(0xFFE2E2E2),
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -705,7 +759,7 @@ class _OverviewTile extends StatelessWidget {
             Text(
               title,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.textOnDark,
+                color: dark ? AppColors.textOnDark : const Color(0xFF111111),
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -713,7 +767,7 @@ class _OverviewTile extends StatelessWidget {
             Text(
               body,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.mutedOnDark,
+                color: dark ? AppColors.mutedOnDark : const Color(0xFF4B4B4B),
                 height: 1.6,
               ),
             ),
@@ -728,11 +782,13 @@ class _StepTile extends StatelessWidget {
   final String index;
   final String title;
   final String body;
+  final bool dark;
 
   const _StepTile({
     required this.index,
     required this.title,
     required this.body,
+    required this.dark,
   });
 
   @override
@@ -741,16 +797,18 @@ class _StepTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.cardOnDark,
+        color: dark ? AppColors.cardOnDark : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderOnDark),
+        border: Border.all(
+          color: dark ? AppColors.borderOnDark : const Color(0xFFE2E2E2),
+        ),
       ),
       child: Row(
         children: [
           Text(
             index,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: AppColors.textOnDark,
+              color: dark ? AppColors.textOnDark : const Color(0xFF111111),
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -762,7 +820,9 @@ class _StepTile extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.textOnDark,
+                    color: dark
+                        ? AppColors.textOnDark
+                        : const Color(0xFF111111),
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -771,7 +831,9 @@ class _StepTile extends StatelessWidget {
                   Text(
                     body,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.mutedOnDark,
+                      color: dark
+                          ? AppColors.mutedOnDark
+                          : const Color(0xFF4B4B4B),
                       height: 1.6,
                     ),
                   ),
@@ -787,8 +849,9 @@ class _StepTile extends StatelessWidget {
 
 class _BulletItem extends StatelessWidget {
   final String text;
+  final bool dark;
 
-  const _BulletItem({required this.text});
+  const _BulletItem({required this.text, required this.dark});
 
   @override
   Widget build(BuildContext context) {
@@ -800,8 +863,8 @@ class _BulletItem extends StatelessWidget {
             width: 8,
             height: 8,
             margin: const EdgeInsets.only(right: 12),
-            decoration: const BoxDecoration(
-              color: Color(0xFF111111),
+            decoration: BoxDecoration(
+              color: dark ? Colors.white : const Color(0xFF111111),
               shape: BoxShape.circle,
             ),
           ),
@@ -809,7 +872,7 @@ class _BulletItem extends StatelessWidget {
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: const Color(0xFF3B3B3B),
+                color: dark ? AppColors.mutedOnDark : const Color(0xFF3B3B3B),
                 height: 1.6,
               ),
             ),
@@ -823,8 +886,13 @@ class _BulletItem extends StatelessWidget {
 class _ChallengeTile extends StatelessWidget {
   final String title;
   final String body;
+  final bool dark;
 
-  const _ChallengeTile({required this.title, required this.body});
+  const _ChallengeTile({
+    required this.title,
+    required this.body,
+    required this.dark,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -832,9 +900,11 @@ class _ChallengeTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.black,
+        color: dark ? AppColors.black : Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderOnDark),
+        border: Border.all(
+          color: dark ? AppColors.borderOnDark : const Color(0xFFE2E2E2),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -842,7 +912,7 @@ class _ChallengeTile extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.textOnDark,
+              color: dark ? AppColors.textOnDark : const Color(0xFF111111),
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -850,7 +920,7 @@ class _ChallengeTile extends StatelessWidget {
           Text(
             body,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppColors.mutedOnDark,
+              color: dark ? AppColors.mutedOnDark : const Color(0xFF4B4B4B),
               height: 1.6,
             ),
           ),

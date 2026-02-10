@@ -61,71 +61,125 @@ I care about doing things properly — clean architecture, clear communication, 
 
     const caseStudies = <CaseStudy>[
       CaseStudy(
-        id: 'explotel-mobile',
-        tag: 'Ticketing',
-        title: 'Explotel Mobile App',
+        id: 'explotel-mobile-guest',
+        tag: 'Mobile App',
+        title: 'Explotel Mobile App — Guest Experience',
         summary:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
+            'A mobile application that allows users to discover events and experiences, '
+            'book tickets securely, manage reservations, and attend events using digital tickets.',
         problem:
-            'Legacy tools slowed ticket scanning and event reporting on-site.',
+            'Event discovery and ticket booking in emerging markets is often fragmented, '
+            'unreliable, and poorly adapted to mobile-first users. Guests face unclear pricing, '
+            'unstable payment flows, and limited visibility on cancellations, refunds, and ticket validity.',
         goal:
-            'Deliver a fast, offline-capable mobile experience for staff and attendees.',
-        roleTimeline: 'Full-stack mobile developer • 10 weeks • 3 teammates',
+            'Design and build a reliable, mobile-first guest experience that simplifies event discovery, '
+            'secure booking, digital ticket access, and post-event interactions, while integrating '
+            'complex payment and refund rules transparently.',
+        roleTimeline:
+            'Backend & Mobile Engineer — Greenfield project\n'
+            'I built the Explotel mobile app (Guest mode) and co-designed the backend architecture, '
+            'working closely with other developers from initial design to production.',
         deliverables:
-            'iOS/Android apps, admin dashboard, analytics, and CI/CD.',
+            '• Flutter mobile application (Guest mode)\n'
+            '• Secure booking and payment flows\n'
+            '• Digital ticket management\n'
+            '• Refund and cancellation handling\n'
+            '• Backend APIs supporting mobile use cases',
         imageUrl: 'assets/images/projects_shots/explotel_mob_3.png',
         gallery: [
           'assets/images/projects_shots/explotel_mob_3.png',
           'assets/images/projects_shots/explotel_mob_3.png',
+          'assets/images/projects_shots/explotel_mob_3.png',
         ],
-        accent: 'teal',
+        accent: 'blue',
+
         approachSteps: [
-          CaseStep(title: 'Discovery', body: 'User interviews + flow mapping.'),
           CaseStep(
-            title: 'Design',
-            body: 'Wireframes and UI kit for rapid iteration.',
+            title: 'Mobile-first architecture',
+            body:
+                'Designed the guest experience with a mobile-first mindset, focusing on clarity, '
+                'speed, and reliability for users discovering and booking events on their phones.',
           ),
-          CaseStep(title: 'Build', body: 'Flutter app + backend services.'),
           CaseStep(
-            title: 'Launch',
-            body: 'Monitoring, analytics, and handoff.',
+            title: 'Clear separation of business models',
+            body:
+                'Implemented distinct data models and flows for Events and Experiences, '
+                'allowing different booking rules, cancellation policies, and refund logic.',
+          ),
+          CaseStep(
+            title: 'Robust payment integration',
+            body:
+                'Integrated Fedapay and Pawapay to support local payment methods, '
+                'with backend logic handling percentage + fixed service fees and partial refunds.',
+          ),
+          CaseStep(
+            title: 'Failure-tolerant booking flow',
+            body:
+                'Designed the system to handle edge cases where payments succeed but booking creation fails, '
+                'allowing administrators to safely relaunch bookings without double charges.',
+          ),
+          CaseStep(
+            title: 'Digital ticket lifecycle',
+            body:
+                'Built digital ticket access for guests, ensuring tickets remain secure, '
+                'traceable, and ready for scanning at event entrances.',
           ),
         ],
+
         highlights: [
-          'Multi-tenant catalogs & pricing tiers',
-          'Order lifecycle with delivery flows',
-          'Analytics dashboards & exports',
+          'End-to-end Flutter guest application',
+          'Complex booking and refund logic',
+          'Multi-provider payment integration',
+          'Clear separation between Event and Experience flows',
+          'Designed for real-world operational edge cases',
         ],
+
         challenges: [
           CaseChallenge(
-            title: 'Offline reliability',
+            title: 'Payment reliability',
             body:
-                'Added local caching with queued sync when connectivity returns.',
+                'Handling inconsistent network conditions and ensuring payment state consistency '
+                'between mobile clients, payment providers, and backend services.',
           ),
           CaseChallenge(
-            title: 'Performance under load',
-            body: 'Optimized API responses and reduced payload size by 35%.',
+            title: 'Refund and cancellation rules',
+            body:
+                'Implementing partial refunds and cancellation penalties while keeping the user '
+                'experience simple and transparent.',
+          ),
+          CaseChallenge(
+            title: 'Data consistency',
+            body:
+                'Ensuring bookings, tickets, and payments remain synchronized across systems, '
+                'even in failure or retry scenarios.',
           ),
         ],
+
         stack: [
           StackIcon.flutter,
+          StackIcon.dart,
           StackIcon.nodejs,
-          StackIcon.aws,
           StackIcon.postgresql,
+          StackIcon.fedapay,
+          StackIcon.pawapay,
+          StackIcon.twilio,
         ],
+
         outcomes: [
-          CaseMetric(label: 'Users', value: '120k+'),
-          CaseMetric(label: 'Uptime', value: '99.9%'),
-          CaseMetric(label: 'Revenue', value: '\$1.2M'),
+          CaseMetric(label: 'Platforms', value: 'Android & iOS'),
+          CaseMetric(label: 'Payment Providers', value: '2 integrated'),
+          CaseMetric(label: 'Refund Support', value: 'Partial & full'),
+          CaseMetric(label: 'Project Type', value: 'Greenfield'),
         ],
+
         quote:
-            '“Great collaboration and execution. The product is faster and more reliable.”',
-        liveUrl:
-            'https://play.google.com/store/apps/details?id=com.explotel.app',
+            'This project pushed me to design mobile systems that are resilient to real-world failures, '
+            'especially around payments and bookings.',
+        liveUrl: 'https://www.explotel.com',
       ),
       CaseStudy(
         id: 'motiboutik',
-        tag: 'Client Project • Upwork',
+        tag: 'E-commerce • Upwork',
         title: 'Motiboutik — Seller-centric E-commerce Platform',
         summary:
             'A custom multi-tenant e-commerce platform built for an Upwork client, enabling sellers to create online stores, manage catalogs, orders, payments, and deliveries from a single system.',
@@ -232,63 +286,101 @@ I care about doing things properly — clean architecture, clear communication, 
             'Delivered a solid technical foundation that allows us to onboard sellers and iterate quickly.',
         liveUrl: null, // client-owned / private
       ),
-
       CaseStudy(
-        id: 'motiboutik-customer-web',
-        tag: 'E-commerce',
-        title: 'Motiboutik Custom Web Store',
+        id: 'motiboutik-web-store',
+        tag: 'E-commerce • Upwork',
+        title: 'Motiboutik Web Store — Customer-facing Storefront',
         summary:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.',
+            'A fast, mobile-first web storefront that lets customers browse products, place orders, and pay online, built to support both platform subdomains and seller-owned custom domains.',
         problem:
-            'The previous web store was rigid and hard to scale for campaigns.',
+            'The client needed a scalable customer-facing store that sellers could share as a link, without forcing customers to install an app. The store had to be fast, brandable, support custom domains, and handle real purchase flows reliably.',
         goal:
-            'Build a flexible storefront with fast performance and integrations.',
-        roleTimeline: 'Full-stack developer • 6 weeks • Solo',
-        deliverables: 'Customer web store, CMS integration, analytics.',
+            'Deliver a performant, SEO-friendly storefront that increases conversion, works seamlessly on mobile, and allows sellers to use either a Motiboutik subdomain or their own custom domain.',
+        roleTimeline:
+            'Freelance Full-Stack Developer (Upwork) • Parallel delivery with core platform • Solo developer',
+        deliverables:
+            'Customer web storefront, domain routing system, product listing and detail pages, cart and checkout flow, and backend integration.',
         imageUrl: 'assets/images/projects_shots/motiboutik_customer_2.png',
         gallery: [
-          'assets/images/projects_shots/motiboutik_customer_2.png',
-          'assets/images/projects_shots/motiboutik_customer_2.png',
+          'assets/case_studies/motiboutik_web/home.png',
+          'assets/case_studies/motiboutik_web/product.png',
+          'assets/case_studies/motiboutik_web/cart.png',
+          'assets/case_studies/motiboutik_web/checkout.png',
         ],
-        accent: 'amber',
-        approachSteps: [
+        accent: 'teal',
+        approachSteps: const [
           CaseStep(
-            title: 'Requirements',
-            body: 'Align marketing and ops on scope.',
+            title: 'Customer journey design',
+            body:
+                'Mapped the full buyer journey from store entry to checkout, focusing on simplicity, trust, and fast decision-making.',
           ),
           CaseStep(
-            title: 'Design',
-            body: 'Build modular components for campaigns.',
+            title: 'Domain & routing strategy',
+            body:
+                'Designed a flexible routing system to serve the same store via platform subdomains or seller-owned custom domains.',
           ),
           CaseStep(
-            title: 'Build',
-            body: 'Implement storefront + backend APIs.',
+            title: 'Mobile-first storefront',
+            body:
+                'Built responsive layouts optimized for mobile usage, where most customers discover and purchase products.',
           ),
-          CaseStep(title: 'Launch', body: 'Analytics and monitoring setup.'),
+          CaseStep(
+            title: 'Checkout & payment flow',
+            body:
+                'Implemented a clear cart and checkout experience with minimal steps to reduce friction and drop-off.',
+          ),
+          CaseStep(
+            title: 'Performance & scalability',
+            body:
+                'Optimized data loading and rendering to ensure fast page loads even as product catalogs grow.',
+          ),
         ],
         highlights: [
-          'Subscription billing (Stripe) + webhooks',
-          'Role-based dashboard & audit logs',
-          'Performance-focused API design',
+          'Public storefront accessible without login',
+          'Product listing and product detail pages',
+          'Cart and checkout flow',
+          'Support for platform subdomains and custom domains',
+          'Mobile-first responsive design',
+          'SEO-friendly URLs and metadata',
+          'Real-time product availability',
+          'Consistent branding per seller',
         ],
-        challenges: [
+        challenges: const [
           CaseChallenge(
-            title: 'Catalog scale',
-            body: 'Implemented server-side pagination and caching.',
+            title: 'Custom domain support',
+            body:
+                'Serving multiple sellers on their own domains required careful routing and domain resolution while keeping a single codebase.',
+          ),
+          CaseChallenge(
+            title: 'Performance on low-end devices',
+            body:
+                'Many customers browse on low-end phones and unstable networks. Solved with lightweight UI and optimized API responses.',
+          ),
+          CaseChallenge(
+            title: 'Consistent UX across many stores',
+            body:
+                'Ensured all stores follow the same UX standards while still allowing seller-specific branding.',
           ),
         ],
         stack: [
-          StackIcon.flutter,
+          StackIcon.flutterWeb,
+          StackIcon.typescript,
           StackIcon.nodejs,
           StackIcon.postgresql,
-          StackIcon.stripe,
+          StackIcon.vercel,
         ],
         outcomes: [
-          CaseMetric(label: 'Page speed', value: '92+'),
-          CaseMetric(label: 'Orders', value: '+25%'),
+          CaseMetric(label: 'Access', value: 'No app install required'),
+          CaseMetric(
+            label: 'Domains',
+            value: 'Subdomain + custom domain support',
+          ),
+          CaseMetric(label: 'UX', value: 'Mobile-first conversion-focused'),
+          CaseMetric(label: 'Scalability', value: 'Multi-store ready'),
         ],
-        quote: null,
-        liveUrl: null,
+        quote:
+            'The storefront makes it easy for sellers to share their store and for customers to buy without friction.',
+        liveUrl: null, // client-owned / private
       ),
     ];
 
