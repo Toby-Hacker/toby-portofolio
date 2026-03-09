@@ -8,8 +8,10 @@ import 'core/theme/app_theme.dart';
 import 'data/mock/mock_portfolio_repository.dart';
 import 'domain/repositories/portfolio_repository.dart';
 import 'features/home/bloc/portfolio_bloc.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {
+  usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const PortfolioApp());
 }

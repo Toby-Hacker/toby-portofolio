@@ -47,6 +47,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -76,6 +78,7 @@ flutter:
     - assets/images/projects_shots/
     - assets/logos/
     - assets/images/projects_shots/explotel-mobile-app/
+    - assets/images/projects_shots/motiboutik-mobile-app/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

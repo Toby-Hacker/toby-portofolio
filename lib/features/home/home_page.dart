@@ -627,19 +627,35 @@ class PartnerLogoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 150,
-      height: 54,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.cardOnLight,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.borderOnDark),
       ),
-      child: logo.svgStr.trim().isNotEmpty
-          ? SvgPicture.string(
-              logo.svgStr,
-              fit: BoxFit.contain,
-            )
-          : _LogoFallback(name: logo.label),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 28,
+            child: logo.svgStr.trim().isNotEmpty
+                ? SvgPicture.string(
+                    logo.svgStr,
+                    fit: BoxFit.contain,
+                  )
+                : _LogoFallback(name: logo.label),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            logo.label,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.mutedOnDark,
+                  fontWeight: FontWeight.w700,
+                ),
+          ),
+        ],
+      ),
     );
   }
 }
