@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rename all PNGs in this folder to motiboutik-mobile-app-<num>.png."""
+"""Rename all PNGs in this folder to dotaga-translate-<num>.png."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ def main() -> None:
 
     # Step 2: rename to final pattern
     for idx, p in enumerate(temp_files, start=1):
-        target = p.with_name(f"motiboutik-mobile-app-{idx}.png")
+        target = p.with_name(f"dotaga-translate-{idx}.png")
         p.rename(target)
 
     print(f"Renamed {len(temp_files)} file(s).")

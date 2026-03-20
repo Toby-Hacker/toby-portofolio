@@ -386,6 +386,116 @@ I care about doing things properly — clean architecture, clear communication, 
             'The storefront makes it easy for sellers to share their store and for customers to buy without friction.',
         liveUrl: null, // client-owned / private
       ),
+      CaseStudy(
+        id: 'dotaga-translate',
+        tag: 'WordPress Plugin • SaaS Product',
+        title:
+            'Dotaga Translate — SEO-first Website Translation Plugin for WordPress',
+        summary:
+            'A translation plugin designed to help WordPress site owners turn a monolingual website into a multilingual one with dedicated translated URLs, SEO-friendly routing, language switchers, sitemap automation, and a full translation management workflow inside WordPress admin.',
+        problem:
+            'Most translation solutions for WordPress force a tradeoff: either fast but shallow instant translation, or heavy enterprise tools that are expensive, rigid, and difficult for smaller site owners to operate. Site owners also struggle with multilingual SEO, translated URL structures, incomplete translation states, and keeping translated pages updated as the original content changes.',
+        goal:
+            'Build a plugin that gives website owners a practical multilingual workflow: fast setup, clean translation management, support for both instant and dedicated translation modes, strong SEO behavior, and enough control to fit real content operations without overwhelming non-technical users.',
+        roleTimeline:
+            'Product Engineer / Full-Stack Developer • End-to-end ownership • Ongoing product development',
+        deliverables:
+            'WordPress plugin architecture, admin UI, setup wizard, settings system, translation engine, translation queue, translation file management, sitemap integration, page loader and routing logic, frontend language widgets, multilingual SEO handling, and supporting API integration.',
+        imageUrl: 'assets/images/projects_shots/dotaga-translate/dotaga-translate-1.png',
+        gallery: [
+          'assets/images/projects_shots/dotaga-translate/dotaga-translate-1.png',
+          'assets/images/projects_shots/dotaga-translate/dotaga-translate-2.png',
+          'assets/images/projects_shots/dotaga-translate/dotaga-translate-3.png',
+          'assets/images/projects_shots/dotaga-translate/dotaga-translate-4.png',
+          'assets/images/projects_shots/dotaga-translate/dotaga-translate-5.png',
+        ],
+        accent: 'blue',
+        approachSteps: [
+          CaseStep(
+            title: 'Product framing first',
+            body:
+                'Started from the real operational needs of multilingual websites rather than just “adding translation”. That meant thinking early about SEO, URL policies, update workflows, and failure cases, not only text conversion.',
+          ),
+          CaseStep(
+            title: 'Dual-mode translation design',
+            body:
+                'Designed the plugin around two distinct usage models: instant translation for low-friction access, and dedicated translation mode for indexable multilingual pages with stronger long-term control.',
+          ),
+          CaseStep(
+            title: 'Backend workflow architecture',
+            body:
+                'Built the translation pipeline around repositories, settings services, background jobs, translation files, and retry-aware queue processing to keep the system maintainable as features expanded.',
+          ),
+          CaseStep(
+            title: 'Admin UX iteration',
+            body:
+                'Implemented a setup wizard, settings pages, language management, translation detail screens, and frontend controls with the goal of making a fairly technical product usable by non-technical site owners.',
+          ),
+          CaseStep(
+            title: 'Edge-case driven refinement',
+            body:
+                'A lot of the work went into the details: translated URL generation, fallback behavior, incomplete translation thresholds, sitemap discovery, widget behavior, and keeping internal links and page routing coherent across languages.',
+          ),
+        ],
+        highlights: [
+          'Dedicated and instant translation modes',
+          'SEO-friendly multilingual URL handling',
+          'Automatic sitemap-based page discovery',
+          'Background translation queue with retry logic',
+          'Translation progress and per-page language control',
+          'Frontend floating widget and shortcode switcher',
+          'Browser-language suggestion flow',
+          'Configurable fallback behavior for incomplete or disabled translations',
+        ],
+        challenges: [
+          CaseChallenge(
+            title: 'Balancing usability with configuration depth',
+            body:
+                'The product needed to serve both simple users and advanced multilingual setups. Solved by separating setup flow from deeper settings while keeping the model consistent underneath.',
+          ),
+          CaseChallenge(
+            title: 'Multilingual routing and SEO correctness',
+            body:
+                'Generating translated URLs is only part of the problem. The harder part was handling canonical behavior, fallback rules, default language hiding, sitemap consistency, and invalid URL structure scenarios without breaking navigation.',
+          ),
+          CaseChallenge(
+            title: 'Reliable background translation processing',
+            body:
+                'Translation jobs can fail for external reasons such as provider instability or malformed responses. Built queue locking, retries, status tracking, and cleanup logic so translation operations remain observable and recoverable.',
+          ),
+          CaseChallenge(
+            title: 'Keeping translated content in sync over time',
+            body:
+                'Translation is not a one-time event. Added update flows, extraction methods, dictionary usage, and configurable auto-update behavior so translated pages can evolve with the source content.',
+          ),
+        ],
+        stack: [
+          StackIcon.php,
+          StackIcon.wordpress,
+          StackIcon.javascript,
+          StackIcon.mysql,
+          StackIcon.html,
+          StackIcon.css,
+        ],
+        outcomes: [
+          CaseMetric(
+            label: 'Translation workflow',
+            value: 'End-to-end inside WordPress',
+          ),
+          CaseMetric(
+            label: 'SEO support',
+            value: 'Dedicated multilingual URL model',
+          ),
+          CaseMetric(label: 'Operations', value: 'Queue-based and retry-aware'),
+          CaseMetric(
+            label: 'Product maturity',
+            value: 'Actively iterated with growing scope',
+          ),
+        ],
+        quote:
+            'Built as a real product, not just a text-replacement tool — with routing, SEO, content lifecycle, and admin usability treated as first-class concerns.',
+        liveUrl: null,
+      ),
     ];
 
     const testimonials = <Testimonial>[
