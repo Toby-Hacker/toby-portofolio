@@ -63,6 +63,8 @@ class TestimonialCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final avatarUrl = testimonial.avatarUrl?.trim();
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
       decoration: BoxDecoration(
@@ -92,22 +94,20 @@ class TestimonialCard extends StatelessWidget {
           const SizedBox(height: 18),
           Row(
             children: [
-              ClipOval(
-                child: Image.asset(
-                  testimonial.avatarUrl,
-                  width: 46,
-                  height: 46,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 46,
-                      height: 46,
-                      color: const Color(0xFF2A2A2A),
-                      child: const Icon(Icons.person, color: Color(0xFF6A6A6A)),
-                    );
-                  },
-                ),
-              ),
+              if (avatarUrl != null && avatarUrl.isNotEmpty)
+                ClipOval(
+                  child: Image.asset(
+                    avatarUrl,
+                    width: 46,
+                    height: 46,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return _InitialsAvatar(name: testimonial.clientName);
+                    },
+                  ),
+                )
+              else
+                _InitialsAvatar(name: testimonial.clientName),
               const SizedBox(width: 12),
               Text(
                 testimonial.clientName,
@@ -119,6 +119,46 @@ class TestimonialCard extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _InitialsAvatar extends StatelessWidget {
+  final String name;
+
+  const _InitialsAvatar({required this.name});
+
+  String _initials(String value) {
+    final parts = value
+        .trim()
+        .split(RegExp(r'\s+'))
+        .where((part) => part.isNotEmpty)
+        .toList();
+
+    if (parts.isEmpty) return '?';
+    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
+
+    return '${parts.first.substring(0, 1)}${parts.last.substring(0, 1)}'
+        .toUpperCase();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 46,
+      height: 46,
+      alignment: Alignment.center,
+      decoration: const BoxDecoration(
+        color: Color(0xFF2A2A2A),
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        _initials(name),
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w800,
+            ),
       ),
     );
   }

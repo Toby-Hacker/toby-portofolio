@@ -128,13 +128,13 @@ class Testimonial extends Equatable {
   final String id;
   final String quote;
   final String clientName;
-  final String avatarUrl;
+  final String? avatarUrl;
 
   const Testimonial({
     required this.id,
     required this.quote,
     required this.clientName,
-    required this.avatarUrl,
+    this.avatarUrl,
   });
 
   @override

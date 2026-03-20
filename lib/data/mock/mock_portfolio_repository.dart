@@ -401,7 +401,8 @@ I care about doing things properly — clean architecture, clear communication, 
             'Product Engineer / Full-Stack Developer • End-to-end ownership • Ongoing product development',
         deliverables:
             'WordPress plugin architecture, admin UI, setup wizard, settings system, translation engine, translation queue, translation file management, sitemap integration, page loader and routing logic, frontend language widgets, multilingual SEO handling, and supporting API integration.',
-        imageUrl: 'assets/images/projects_shots/dotaga-translate/dotaga-translate-1.png',
+        imageUrl:
+            'assets/images/projects_shots/dotaga-translate/dotaga-translate-1.png',
         gallery: [
           'assets/images/projects_shots/dotaga-translate/dotaga-translate-1.png',
           'assets/images/projects_shots/dotaga-translate/dotaga-translate-2.png',
@@ -503,29 +504,29 @@ I care about doing things properly — clean architecture, clear communication, 
         id: 't1',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        clientName: 'Client Name',
-        avatarUrl: 'assets/images/avatar_1.png',
+        clientName: 'Willem ENGANDJA',
+        avatarUrl: null,
       ),
       Testimonial(
         id: 't2',
         quote:
             'Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        clientName: 'Client Name',
-        avatarUrl: 'assets/images/avatar_2.png',
+        clientName: 'LOUBERE TAUBIRA',
+        avatarUrl: null,
       ),
       Testimonial(
         id: 't3',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        clientName: 'Client Name',
-        avatarUrl: 'assets/images/avatar_3.png',
+        clientName: 'ADJAHOUINOU Godwin Kévin',
+        avatarUrl: null,
       ),
       Testimonial(
         id: 't4',
         quote:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        clientName: 'Client Name',
-        avatarUrl: 'assets/images/avatar_4.png',
+        clientName: 'Miguel Lokossou',
+        avatarUrl: null,
       ),
     ];
 
