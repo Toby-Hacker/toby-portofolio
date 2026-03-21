@@ -198,11 +198,11 @@ class _DirectContactActions extends StatelessWidget {
 
   static const _whatsAppUrl = String.fromEnvironment(
     'WHATSAPP_URL',
-    defaultValue: '',
+    defaultValue: 'https://wa.me/2290161417254?text=Hello%20Amzath%2C%20I%20saw%20your%20portfolio.',
   );
   static const _upworkUrl = String.fromEnvironment(
     'UPWORK_URL',
-    defaultValue: '',
+    defaultValue: 'https://www.upwork.com/freelancers/~01296beb27e87bc5b0',
   );
 
   @override
@@ -321,27 +321,34 @@ class _DirectContactCardState extends State<_DirectContactCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 46,
-                    height: 46,
-                    decoration: BoxDecoration(
-                      color: accent.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: SvgPicture.string(widget.stackIcon.svgStr),
+                  Row(
+                    children: [
+                      Container(
+                        width: 46,
+                        height: 46,
+                        decoration: BoxDecoration(
+                          color: accent.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: SvgPicture.string(widget.stackIcon.svgStr),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          widget.label,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                color: _enabled
+                                    ? AppColors.textOnDark
+                                    : AppColors.mutedOnDark,
+                                fontWeight: FontWeight.w700,
+                              ),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 14),
-                  Text(
-                    widget.label,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: _enabled
-                          ? AppColors.textOnDark
-                          : AppColors.mutedOnDark,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 10),
                   Text(
                     widget.description,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
