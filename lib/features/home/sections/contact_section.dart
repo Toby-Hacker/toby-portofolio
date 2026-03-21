@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toby_portfolio/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/constants/stack_icon.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/glow_button.dart';
 import '../../../core/widgets/max_width.dart';
@@ -29,7 +32,22 @@ class ContactSection extends StatelessWidget {
             const SizedBox(height: 34),
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
-              child: _ContactForm(l10n: l10n),
+              child: Column(
+                children: [
+                  const _DirectContactActions(),
+                  const SizedBox(height: 32),
+                  Text(
+                    'Or send a message',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textOnDark,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  _ContactForm(l10n: l10n),
+                ],
+              ),
             ),
           ],
         ),
@@ -172,6 +190,194 @@ class _ContactFormState extends State<_ContactForm> {
         setState(() => _isSubmitting = false);
       }
     }
+  }
+}
+
+class _DirectContactActions extends StatelessWidget {
+  const _DirectContactActions();
+
+  static const _whatsAppUrl = String.fromEnvironment(
+    'WHATSAPP_URL',
+    defaultValue: '',
+  );
+  static const _upworkUrl = String.fromEnvironment(
+    'UPWORK_URL',
+    defaultValue: '',
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final isCompact = MediaQuery.sizeOf(context).width < 720;
+    final cards = [
+      _DirectContactCard(
+        label: 'WhatsApp',
+        description: 'Quick chat for project ideas and urgent questions',
+        stackIcon: StackIcon.whatsapp,
+        accentColor: const Color(0xFF25D366),
+        url: _whatsAppUrl,
+      ),
+      _DirectContactCard(
+        label: 'Upwork',
+        description: 'Hire me through Upwork for a structured contract',
+        stackIcon: StackIcon.upwork,
+        accentColor: const Color(0xFF6FDA44),
+        url: _upworkUrl,
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          'Or contact me directly',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: AppColors.textOnDark,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 16),
+        if (isCompact)
+          Column(
+            children: [
+              for (final card in cards) ...[
+                card,
+                if (card != cards.last) const SizedBox(height: 14),
+              ],
+            ],
+          )
+        else
+          Row(
+            children: [
+              Expanded(child: cards[0]),
+              const SizedBox(width: 14),
+              Expanded(child: cards[1]),
+            ],
+          ),
+      ],
+    );
+  }
+}
+
+class _DirectContactCard extends StatefulWidget {
+  const _DirectContactCard({
+    required this.label,
+    required this.description,
+    required this.stackIcon,
+    required this.accentColor,
+    required this.url,
+  });
+
+  final String label;
+  final String description;
+  final StackIcon stackIcon;
+  final Color accentColor;
+  final String url;
+
+  @override
+  State<_DirectContactCard> createState() => _DirectContactCardState();
+}
+
+class _DirectContactCardState extends State<_DirectContactCard> {
+  bool _hovered = false;
+
+  bool get _enabled => widget.url.trim().isNotEmpty;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = _enabled ? widget.accentColor : AppColors.borderOnDark;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOut,
+        decoration: BoxDecoration(
+          color: AppColors.cardOnDark,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: _hovered ? accent : AppColors.borderOnDark,
+            width: 1.2,
+          ),
+          boxShadow: _hovered && _enabled
+              ? [
+                  BoxShadow(
+                    color: accent.withOpacity(0.18),
+                    blurRadius: 24,
+                    spreadRadius: 0,
+                    offset: const Offset(0, 10),
+                  ),
+                ]
+              : null,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: _enabled ? () => _launch(context) : null,
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: accent.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: SvgPicture.string(widget.stackIcon.svgStr),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    widget.label,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: _enabled
+                          ? AppColors.textOnDark
+                          : AppColors.mutedOnDark,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    widget.description,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: _enabled
+                          ? AppColors.textOnDark.withOpacity(0.84)
+                          : AppColors.mutedOnDark,
+                      height: 1.55,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _launch(BuildContext context) async {
+    final uri = Uri.tryParse(widget.url.trim());
+    if (uri == null) {
+      _showError(context, 'Invalid contact URL.');
+      return;
+    }
+
+    final didLaunch = await launchUrl(uri, webOnlyWindowName: '_blank');
+    if (!didLaunch && context.mounted) {
+      _showError(context, 'Could not open ${widget.label}.');
+    }
+  }
+
+  void _showError(BuildContext context, String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
