@@ -19,6 +19,7 @@
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
+  <meta name="theme-color" content="#080808">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -31,8 +32,341 @@
 
   <title>toby_portfolio</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --bg: #05070b;
+      --bg-soft: #0b1018;
+      --text: #f5f7fb;
+      --muted: #9fb0c6;
+      --line: rgba(255, 255, 255, 0.08);
+      --cyan: #46e0ff;
+      --green: #6fda44;
+      --glow: rgba(70, 224, 255, 0.22);
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(70, 224, 255, 0.14), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(111, 218, 68, 0.12), transparent 28%),
+        linear-gradient(180deg, #05070b 0%, #080b11 100%);
+      color: var(--text);
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 42%, transparent 92%);
+      opacity: 0.26;
+      pointer-events: none;
+    }
+
+    #app-loader {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+      z-index: 9999;
+      transition: opacity 520ms ease, visibility 520ms ease, transform 520ms ease;
+    }
+
+    #app-loader.loader-hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.02);
+    }
+
+    .loader-shell {
+      position: relative;
+      width: min(92vw, 740px);
+      padding: 34px 28px 30px;
+      border-radius: 32px;
+      background: linear-gradient(180deg, rgba(10, 14, 22, 0.92), rgba(7, 9, 15, 0.92));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 24px 90px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(70, 224, 255, 0.06) inset,
+        0 0 80px rgba(70, 224, 255, 0.08);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .loader-shell::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% 28% -20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(70, 224, 255, 0.55), transparent);
+      animation: sweep 4.2s linear infinite;
+      opacity: 0.75;
+    }
+
+    .loader-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .loader-badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .loader-main {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .photo-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+    }
+
+    .photo-glow,
+    .photo-ring,
+    .photo-ring::before,
+    .photo-ring::after {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+    }
+
+    .photo-glow {
+      background:
+        radial-gradient(circle, rgba(70, 224, 255, 0.26), transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(111, 218, 68, 0.22), transparent 40%);
+      filter: blur(18px);
+      transform: scale(1.12);
+      animation: pulse 2.8s ease-in-out infinite;
+    }
+
+    .photo-ring {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      animation: spin 11s linear infinite;
+    }
+
+    .photo-ring::before,
+    .photo-ring::after {
+      content: "";
+      inset: 10px;
+      border: 1px dashed rgba(70, 224, 255, 0.28);
+    }
+
+    .photo-ring::after {
+      inset: -10px;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.04);
+      animation: spin-reverse 16s linear infinite;
+    }
+
+    .profile-photo {
+      position: absolute;
+      inset: 18px;
+      width: calc(100% - 36px);
+      height: calc(100% - 36px);
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow:
+        0 14px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 6px rgba(255, 255, 255, 0.03);
+    }
+
+    .loader-copy h1 {
+      margin: 0 0 10px;
+      font-size: clamp(38px, 5vw, 56px);
+      line-height: 0.96;
+      letter-spacing: -0.04em;
+    }
+
+    .loader-copy .role {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .loader-copy .status {
+      margin: 0 0 18px;
+      max-width: 420px;
+      color: rgba(245, 247, 251, 0.88);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .signal-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .signal-pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(245, 247, 251, 0.92);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .progress-track {
+      position: relative;
+      height: 6px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .progress-track::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 42%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      box-shadow: 0 0 24px var(--glow);
+      animation: progress 1.8s ease-in-out infinite;
+    }
+
+    @keyframes progress {
+      0% { transform: translateX(-100%); }
+      55% { transform: translateX(170%); }
+      100% { transform: translateX(170%); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-reverse {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; transform: scale(1.08); }
+      50% { opacity: 1; transform: scale(1.16); }
+    }
+
+    @keyframes sweep {
+      from { transform: translateX(-12%); }
+      to { transform: translateX(12%); }
+    }
+
+    @media (max-width: 760px) {
+      .loader-shell {
+        padding: 22px 18px 22px;
+        border-radius: 24px;
+      }
+
+      .loader-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .photo-wrap {
+        width: 176px;
+        height: 176px;
+      }
+
+      .signal-row,
+      .progress-meta {
+        justify-content: center;
+      }
+
+      .loader-copy .status {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div id="app-loader" aria-hidden="true">
+    <div class="loader-shell">
+      <div class="loader-header">
+        <span class="loader-badge">Portfolio Boot Sequence</span>
+        <span>Recruiter Preview</span>
+      </div>
+      <div class="loader-main">
+        <div class="photo-wrap">
+          <div class="photo-glow"></div>
+          <div class="photo-ring"></div>
+          <img
+            class="profile-photo"
+            src="assets/assets/images/profile_pic.png"
+            alt="Amzath profile photo"
+          />
+        </div>
+        <div class="loader-copy">
+          <h1>Amzath</h1>
+          <p class="role">Full-Stack Mobile Developer</p>
+          <p class="status">
+            Initializing selected work, case studies, and production-ready mobile builds.
+          </p>
+          <div class="signal-row">
+            <span class="signal-pill">Flutter</span>
+            <span class="signal-pill">Backend APIs</span>
+            <span class="signal-pill">Clean Architecture</span>
+          </div>
+          <div class="progress-meta">
+            <span>Loading Portfolio</span>
+            <span>Stand by</span>
+          </div>
+          <div class="progress-track"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var loader = document.getElementById('app-loader');
+      if (!loader) return;
+      loader.classList.add('loader-hidden');
+      window.setTimeout(function () {
+        loader.remove();
+      }, 650);
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

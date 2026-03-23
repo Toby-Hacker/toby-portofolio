@@ -198,7 +198,8 @@ class _DirectContactActions extends StatelessWidget {
 
   static const _whatsAppUrl = String.fromEnvironment(
     'WHATSAPP_URL',
-    defaultValue: 'https://wa.me/2290161417254?text=Hello%20Amzath%2C%20I%20saw%20your%20portfolio.',
+    defaultValue:
+        'https://wa.me/2290161417254?text=Hello%20Amzath%2C%20I%20saw%20your%20portfolio.',
   );
   static const _upworkUrl = String.fromEnvironment(
     'UPWORK_URL',
@@ -210,18 +211,18 @@ class _DirectContactActions extends StatelessWidget {
     final isCompact = MediaQuery.sizeOf(context).width < 720;
     final cards = [
       _DirectContactCard(
-        label: 'WhatsApp',
-        description: 'Quick chat for project ideas and urgent questions',
-        stackIcon: StackIcon.whatsapp,
-        accentColor: const Color(0xFF25D366),
-        url: _whatsAppUrl,
-      ),
-      _DirectContactCard(
         label: 'Upwork',
         description: 'Hire me through Upwork for a structured contract',
         stackIcon: StackIcon.upwork,
         accentColor: const Color(0xFF6FDA44),
         url: _upworkUrl,
+      ),
+      _DirectContactCard(
+        label: 'WhatsApp',
+        description: 'Quick chat for project ideas and urgent questions',
+        stackIcon: StackIcon.whatsapp,
+        accentColor: const Color(0xFF25D366),
+        url: _whatsAppUrl,
       ),
     ];
 
