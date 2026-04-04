@@ -68,7 +68,7 @@ class _ContactForm extends StatefulWidget {
 class _ContactFormState extends State<_ContactForm> {
   static const _contactApiUrl = String.fromEnvironment(
     'CONTACT_API_URL',
-    defaultValue: 'http://localhost:5000/api/contact',
+    defaultValue: 'https://portfolio-api-hv2e.onrender.com/api/contact',
   );
 
   final _formKey = GlobalKey<FormState>();
